@@ -25,7 +25,7 @@
 // export * from './components/input/input.js';
 // export * from './components/modal/modal.js';
 // export * from './components/toast/toast.js';
-// export * from './components/avatar/avatar.js';
+export * from './components/avatar/avatar.js';
 
 // Version
 export const VERSION = '0.1.0';

@@ -464,7 +464,8 @@ specs:
           - Circular shape with overflow hidden
         depends_on: []
         estimate: 2h
-        status: pending
+        status: done
+        completed: '2025-12-03'
 
       - id: avatar-002
         name: Avatar sizes and image error handling

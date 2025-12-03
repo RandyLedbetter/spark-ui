@@ -189,8 +189,77 @@
     <!-- Avatar Component -->
     <section class="component-section">
       <h2>👤 Avatar Component</h2>
-      <div class="placeholder">
-        <code>&lt;spark-avatar&gt;</code> - Coming soon
+      
+      <h3 style="margin: var(--spark-spacing-md) 0 var(--spark-spacing-sm); font-size: var(--spark-font-size-md);">Sizes</h3>
+      <div class="component-grid">
+        <div style="text-align: center;">
+          <spark-avatar size="small" initials="SM"></spark-avatar>
+          <div style="font-size: var(--spark-font-size-xs); margin-top: var(--spark-spacing-xs);">small (24px)</div>
+        </div>
+        <div style="text-align: center;">
+          <spark-avatar size="medium" initials="MD"></spark-avatar>
+          <div style="font-size: var(--spark-font-size-xs); margin-top: var(--spark-spacing-xs);">medium (40px)</div>
+        </div>
+        <div style="text-align: center;">
+          <spark-avatar size="large" initials="LG"></spark-avatar>
+          <div style="font-size: var(--spark-font-size-xs); margin-top: var(--spark-spacing-xs);">large (64px)</div>
+        </div>
+        <div style="text-align: center;">
+          <spark-avatar size="xlarge" initials="XL"></spark-avatar>
+          <div style="font-size: var(--spark-font-size-xs); margin-top: var(--spark-spacing-xs);">xlarge (96px)</div>
+        </div>
+      </div>
+      
+      <h3 style="margin: var(--spark-spacing-md) 0 var(--spark-spacing-sm); font-size: var(--spark-font-size-md);">Fallback States</h3>
+      <div class="component-grid">
+        <div style="text-align: center;">
+          <spark-avatar src="https://i.pravatar.cc/150?img=1" alt="User with image" size="large"></spark-avatar>
+          <div style="font-size: var(--spark-font-size-xs); margin-top: var(--spark-spacing-xs);">With image</div>
+        </div>
+        <div style="text-align: center;">
+          <spark-avatar initials="JD" size="large"></spark-avatar>
+          <div style="font-size: var(--spark-font-size-xs); margin-top: var(--spark-spacing-xs);">Initials (JD)</div>
+        </div>
+        <div style="text-align: center;">
+          <spark-avatar initials="AB" size="large"></spark-avatar>
+          <div style="font-size: var(--spark-font-size-xs); margin-top: var(--spark-spacing-xs);">Initials (AB)</div>
+        </div>
+        <div style="text-align: center;">
+          <spark-avatar size="large"></spark-avatar>
+          <div style="font-size: var(--spark-font-size-xs); margin-top: var(--spark-spacing-xs);">Default icon</div>
+        </div>
+      </div>
+      
+      <h3 style="margin: var(--spark-spacing-md) 0 var(--spark-spacing-sm); font-size: var(--spark-font-size-md);">Status Indicators</h3>
+      <div class="component-grid">
+        <div style="text-align: center;">
+          <spark-avatar initials="ON" status="online" size="large"></spark-avatar>
+          <div style="font-size: var(--spark-font-size-xs); margin-top: var(--spark-spacing-xs);">online</div>
+        </div>
+        <div style="text-align: center;">
+          <spark-avatar initials="AW" status="away" size="large"></spark-avatar>
+          <div style="font-size: var(--spark-font-size-xs); margin-top: var(--spark-spacing-xs);">away</div>
+        </div>
+        <div style="text-align: center;">
+          <spark-avatar initials="BY" status="busy" size="large"></spark-avatar>
+          <div style="font-size: var(--spark-font-size-xs); margin-top: var(--spark-spacing-xs);">busy</div>
+        </div>
+        <div style="text-align: center;">
+          <spark-avatar initials="OF" status="offline" size="large"></spark-avatar>
+          <div style="font-size: var(--spark-font-size-xs); margin-top: var(--spark-spacing-xs);">offline</div>
+        </div>
+      </div>
+      
+      <h3 style="margin: var(--spark-spacing-md) 0 var(--spark-spacing-sm); font-size: var(--spark-font-size-md);">Initials Color Variation</h3>
+      <div class="component-grid">
+        <spark-avatar initials="AA"></spark-avatar>
+        <spark-avatar initials="BB"></spark-avatar>
+        <spark-avatar initials="CC"></spark-avatar>
+        <spark-avatar initials="DD"></spark-avatar>
+        <spark-avatar initials="EE"></spark-avatar>
+        <spark-avatar initials="FF"></spark-avatar>
+        <spark-avatar initials="GG"></spark-avatar>
+        <spark-avatar initials="HH"></spark-avatar>
       </div>
     </section>
   </div>
