@@ -1,0 +1,133 @@
+/* Spark Toast Component Styles */
+
+:root {
+  --spark-toast-bg: var(--spark-white, #ffffff);
+  --spark-toast-text: var(--spark-secondary, #475569);
+  --spark-toast-radius: var(--spark-radius-md, 0.5rem);
+  --spark-toast-shadow: var(--spark-shadow-md, 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1));
+  --spark-toast-padding: var(--spark-spacing-sm, 0.5rem) var(--spark-spacing-md, 1rem);
+  --spark-toast-gap: var(--spark-spacing-sm, 0.5rem);
+  --spark-toast-z-index: var(--spark-z-toast, 800);
+  --spark-toast-info: var(--spark-info, #3b82f6);
+  --spark-toast-success: var(--spark-success, #22c55e);
+  --spark-toast-warning: var(--spark-warning, #f59e0b);
+  --spark-toast-error: var(--spark-error, #ef4444);
+}
+
+spark-toast-container {
+  position: fixed;
+  z-index: var(--spark-toast-z-index);
+  display: block;
+  pointer-events: none;
+}
+
+spark-toast-container[position="top-right"],
+spark-toast-container:not([position]) {
+  top: var(--spark-spacing-lg, 1.5rem);
+  right: var(--spark-spacing-lg, 1.5rem);
+}
+
+spark-toast-container[position="top-left"] {
+  top: var(--spark-spacing-lg, 1.5rem);
+  left: var(--spark-spacing-lg, 1.5rem);
+}
+
+spark-toast-container[position="bottom-right"] {
+  bottom: var(--spark-spacing-lg, 1.5rem);
+  right: var(--spark-spacing-lg, 1.5rem);
+}
+
+spark-toast-container[position="bottom-left"] {
+  bottom: var(--spark-spacing-lg, 1.5rem);
+  left: var(--spark-spacing-lg, 1.5rem);
+}
+
+spark-toast-container .toast-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spark-toast-gap);
+  pointer-events: none;
+}
+
+spark-toast-container[position^="top"] .toast-stack {
+  align-items: flex-end;
+}
+
+spark-toast-container[position^="bottom"] .toast-stack {
+  align-items: flex-end;
+}
+
+spark-toast-container .toast {
+  min-width: 240px;
+  max-width: 360px;
+  background: var(--spark-toast-bg);
+  color: var(--spark-toast-text);
+  border-radius: var(--spark-toast-radius);
+  box-shadow: var(--spark-toast-shadow);
+  padding: var(--spark-toast-padding);
+  display: flex;
+  gap: var(--spark-toast-gap);
+  align-items: flex-start;
+  pointer-events: auto;
+  animation: spark-toast-in 200ms ease forwards;
+}
+
+spark-toast-container .toast--leaving {
+  animation: spark-toast-out 200ms ease forwards;
+}
+
+spark-toast-container .toast__icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+spark-toast-container .toast__message {
+  flex: 1;
+  font-size: var(--spark-font-size-sm, 0.875rem);
+}
+
+spark-toast-container .toast__close {
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+spark-toast-container .toast--info {
+  border-left: 4px solid var(--spark-toast-info);
+}
+
+spark-toast-container .toast--success {
+  border-left: 4px solid var(--spark-toast-success);
+}
+
+spark-toast-container .toast--warning {
+  border-left: 4px solid var(--spark-toast-warning);
+}
+
+spark-toast-container .toast--error {
+  border-left: 4px solid var(--spark-toast-error);
+}
+
+@keyframes spark-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spark-toast-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}

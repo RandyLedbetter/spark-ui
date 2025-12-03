@@ -24,7 +24,7 @@
 // export * from './components/card/card.js';
 // export * from './components/input/input.js';
 // export * from './components/modal/modal.js';
-// export * from './components/toast/toast.js';
+export { SparkToast, SparkToastContainer } from './components/toast/toast.js';
 // export * from './components/avatar/avatar.js';
 
 // Version

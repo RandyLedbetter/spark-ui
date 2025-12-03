@@ -365,7 +365,8 @@ specs:
           - Default duration 3000ms
         depends_on: []
         estimate: 2h
-        status: pending
+        status: done
+        completed: '2025-12-03'
 
       - id: toast-002
         name: Toast types and styling
