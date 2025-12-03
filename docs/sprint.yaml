@@ -141,7 +141,8 @@ specs:
           - All use Shadow DOM encapsulation
         depends_on: []
         estimate: 2h
-        status: pending
+        status: done
+        completed: '2025-12-03'
 
       - id: card-002
         name: Card elevation levels
