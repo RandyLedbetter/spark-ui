@@ -79,3 +79,39 @@ tasks:
 - [ ] No regressions introduced
 - [ ] Task marked complete
 
+---
+
+## After Completion
+
+When implementation is complete, present a summary and flexible next steps:
+
+```
+---
+## Summary
+---
+✓ Implemented task: [task-id] - [task name]
+✓ Files modified: [list of files]
+✓ All [N] acceptance criteria met
+✓ Tests added/updated
+✓ Updated sprint.yaml - task marked done
+
+---
+## Next Steps
+---
+
+Based on what we've accomplished, here are your options:
+
+1. **Continue to next task** - Implement the next pending task
+2. **Verify the implementation** - Use `/verify` to review quality
+3. **Run tests** - Execute the test suite to confirm everything works
+4. **Review changes** - Walk through the code changes together
+
+**Quick Actions:**
+- Reply "go" or "next" to continue with the next task
+- Reply "verify" to run verification
+- Reply with a number to choose that option
+- Or tell me what you'd like to adjust or review
+
+I'll adapt to whatever direction you want to take.
+```
+

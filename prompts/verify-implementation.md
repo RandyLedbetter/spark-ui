@@ -81,5 +81,41 @@ When everything passes:
 1. Mark spec as `done` in sprint.yaml
 2. Consider if any patterns should go in standards
 3. Update roadmap if feature is complete
-4. Celebrate! 🎉
+4. Celebrate!
+
+---
+
+## After Completion
+
+When verification is complete, present a summary and flexible next steps:
+
+```
+---
+## Summary
+---
+✓ Verified implementation of [spec-name]
+✓ All acceptance criteria met: [N/N]
+✓ Code quality review: Passed
+✓ Test coverage: [percentage or status]
+✓ Updated sprint.yaml - spec marked done
+
+---
+## Next Steps
+---
+
+Based on the verification results, here are your options:
+
+1. **Start next feature** - Use `/shape-spec` for the next roadmap item
+2. **Create more tasks** - Break down another spec with `/create-tasks`
+3. **Orchestrate remaining work** - Use `/orchestrate` for parallel development
+4. **Update standards** - Document patterns we should reuse
+
+**Quick Actions:**
+- Reply "go" or "next" to start the next feature
+- Reply "orchestrate" if there are parallel tasks waiting
+- Reply with a number to choose that option
+- Or tell me what you'd like to do next
+
+I'll adapt to whatever direction you want to take.
+```
 

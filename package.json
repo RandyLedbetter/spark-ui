@@ -1,0 +1,46 @@
+{
+  "name": "spark-ui",
+  "version": "0.1.0",
+  "description": "A lightweight, accessible Web Component library that works with any framework",
+  "type": "module",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./tokens": "./src/tokens/tokens.css",
+    "./button": "./src/components/button/button.js",
+    "./card": "./src/components/card/card.js",
+    "./input": "./src/components/input/input.js",
+    "./modal": "./src/components/modal/modal.js",
+    "./toast": "./src/components/toast/toast.js",
+    "./avatar": "./src/components/avatar/avatar.js"
+  },
+  "files": [
+    "src/**/*"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui"
+  },
+  "keywords": [
+    "web-components",
+    "ui",
+    "components",
+    "accessible",
+    "framework-agnostic"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RandyLedbetter/spark-ui.git"
+  }
+}
+

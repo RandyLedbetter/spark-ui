@@ -7,370 +7,323 @@
 
 ## Overview
 
-The `<spark-toast>` Web Component and `SparkToast` API provide a notification system for displaying brief, non-blocking messages to users. Toasts auto-dismiss by default and stack when multiple are shown.
+The Toast system provides a global notification mechanism for displaying brief, non-blocking messages to users. It consists of a `SparkToast` JavaScript API for showing toasts and a `<spark-toast-container>` element for rendering them.
 
 ## Problem Statement
 
 ### The Problem
-Developers need a way to show transient feedback (success messages, errors, warnings) without blocking user interaction. Building a toast system with proper stacking, animations, and accessibility is complex.
+Applications need to communicate feedback to users:
+- Action confirmations ("File saved")
+- Error notifications ("Upload failed")
+- Warnings ("Session expiring")
+- Informational updates ("New message received")
+
+Building a toast system requires:
+- Global state management
+- Positioning and stacking logic
+- Auto-dismiss timers
+- Accessible announcements
+- Animation coordination
 
 ### Current State
-Developers either:
-- Use framework-specific toast libraries (react-toastify, vue-toastification)
-- Build custom toast systems that lack proper stacking and accessibility
-- Abuse browser alerts which block interaction
+Developers use heavy toast libraries or build fragile custom implementations that often lack accessibility and proper stacking.
 
 ### Impact
-Toasts are essential for user feedback on actions (form submissions, saves, errors). A well-designed toast system improves UX by providing non-intrusive feedback.
+Toast notifications are essential for user feedback. A well-designed toast system:
+- Reduces user uncertainty about action results
+- Provides accessible announcements
+- Maintains visual consistency
 
 ## Proposed Solution
 
 ### User Experience
-Developers show toasts programmatically via a simple API:
 
 ```javascript
-// Simple usage
-SparkToast.success('File saved successfully');
-SparkToast.error('Failed to save file');
-SparkToast.warning('Your session will expire soon');
-SparkToast.info('New updates available');
+// JavaScript API - Simple usage
+SparkToast.show('File saved successfully');
 
 // With options
 SparkToast.show({
-  message: 'Item deleted',
-  type: 'success',
-  duration: 5000,
-  action: {
-    label: 'Undo',
-    onClick: () => restoreItem()
-  }
+  message: 'Upload failed. Please try again.',
+  type: 'error',
+  duration: 5000
 });
-```
 
-Or declaratively via HTML:
+// Shorthand methods
+SparkToast.success('Profile updated');
+SparkToast.error('Connection lost');
+SparkToast.warning('Unsaved changes');
+SparkToast.info('New version available');
+
+// Manual dismiss
+const toast = SparkToast.show({ message: 'Processing...', duration: 0 });
+// Later...
+toast.dismiss();
+```
 
 ```html
-<spark-toast type="success" duration="3000">
-  File saved successfully
-</spark-toast>
-
-<script>
-  document.querySelector('spark-toast').show();
-</script>
+<!-- Optional: Container for custom positioning -->
+<spark-toast-container position="bottom-right"></spark-toast-container>
 ```
 
-### API Reference
-
-#### `SparkToast` Static Methods (Programmatic API)
-
-| Method | Parameters | Description |
-|--------|------------|-------------|
-| `show(options)` | `ToastOptions` | Show toast with full options |
-| `success(message)` | `string` | Show success toast |
-| `error(message)` | `string` | Show error toast |
-| `warning(message)` | `string` | Show warning toast |
-| `info(message)` | `string` | Show info toast |
-| `dismiss(id)` | `string` | Dismiss specific toast |
-| `dismissAll()` | none | Dismiss all toasts |
-
-#### ToastOptions Object
-
-```typescript
-interface ToastOptions {
-  message: string;           // Required: Toast message
-  type?: 'info' | 'success' | 'warning' | 'error';  // Default: 'info'
-  duration?: number;         // Default: 4000 (ms), 0 = no auto-dismiss
-  position?: 'top-right' | 'top-left' | 'top-center' | 
-             'bottom-right' | 'bottom-left' | 'bottom-center';  // Default: 'bottom-right'
-  dismissible?: boolean;     // Default: true (show close button)
-  action?: {
-    label: string;
-    onClick: () => void;
-  };
-}
-```
-
-#### `<spark-toast>` Element Attributes
-
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `type` | string | `"info"` | Toast type: `info`, `success`, `warning`, `error` |
-| `duration` | number | `4000` | Auto-dismiss time in ms (0 = no auto-dismiss) |
-| `position` | string | `"bottom-right"` | Screen position |
-| `dismissible` | boolean | `true` | Show close button |
-
-#### Element Methods
-
-| Method | Description |
-|--------|-------------|
-| `show()` | Display the toast |
-| `dismiss()` | Hide the toast |
-
-#### Events
-
-| Event | Detail | Description |
-|-------|--------|-------------|
-| `spark-toast-show` | `{ id: string }` | Fired when toast appears |
-| `spark-toast-dismiss` | `{ id: string, trigger: 'auto' \| 'button' \| 'action' \| 'api' }` | Fired when toast is dismissed |
-| `spark-toast-action` | `{ id: string }` | Fired when action button is clicked |
-
-#### CSS Custom Properties
-
-| Property | Default | Description |
-|----------|---------|-------------|
-| `--spark-toast-background` | `#1e293b` | Toast background color |
-| `--spark-toast-text-color` | `#ffffff` | Toast text color |
-| `--spark-toast-border-radius` | `var(--spark-radius-md)` | Corner radius |
-| `--spark-toast-shadow` | `var(--spark-shadow-lg)` | Box shadow |
-| `--spark-toast-z-index` | `9999` | Stacking order |
-
-### Visual Specifications
+### Visual Design
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ TOAST TYPES                                                  │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  ┌─────────────────────────────────────────┐                │
-│  │ ✓  File saved successfully          [×] │  SUCCESS      │
-│  └─────────────────────────────────────────┘  #22c55e      │
-│                                                              │
-│  ┌─────────────────────────────────────────┐                │
-│  │ ✗  Failed to save file              [×] │  ERROR        │
-│  └─────────────────────────────────────────┘  #ef4444      │
-│                                                              │
-│  ┌─────────────────────────────────────────┐                │
-│  │ ⚠  Session expiring soon            [×] │  WARNING      │
-│  └─────────────────────────────────────────┘  #f59e0b      │
-│                                                              │
-│  ┌─────────────────────────────────────────┐                │
-│  │ ℹ  New updates available            [×] │  INFO         │
-│  └─────────────────────────────────────────┘  #6366f1      │
-│                                                              │
-├─────────────────────────────────────────────────────────────┤
-│ TOAST WITH ACTION                                            │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  ┌─────────────────────────────────────────┐                │
-│  │ ✓  Item deleted              [Undo] [×] │                │
-│  └─────────────────────────────────────────┘                │
-│                                                              │
-├─────────────────────────────────────────────────────────────┤
-│ POSITIONS                                                    │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │ [top-left]     [top-center]           [top-right]    │   │
-│  │                                                      │   │
-│  │                                                      │   │
-│  │                                                      │   │
-│  │ [bottom-left]  [bottom-center]     [bottom-right] ← │   │
-│  └──────────────────────────────────────────────────────┘   │
-│                                           default           │
-│                                                              │
-├─────────────────────────────────────────────────────────────┤
-│ STACKING (bottom-right example)                              │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│                              ┌─────────────────────┐        │
-│                              │ Toast 3 (newest)    │        │
-│                              └─────────────────────┘        │
-│                              ┌─────────────────────┐        │
-│                              │ Toast 2             │        │
-│                              └─────────────────────┘        │
-│                              ┌─────────────────────┐        │
-│                              │ Toast 1 (oldest)    │        │
-│                              └─────────────────────┘        │
-│                                                              │
-│  Gap between toasts: 8px                                    │
-│  Max visible: 5 (older toasts dismissed)                    │
-│                                                              │
-├─────────────────────────────────────────────────────────────┤
-│ ANIMATIONS                                                   │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  Enter: Slide in from edge + fade (300ms ease-out)          │
-│  Exit:  Slide out to edge + fade (200ms ease-in)            │
-│  Stack shift: Smooth position transition (200ms)            │
-│                                                              │
-└─────────────────────────────────────────────────────────────┘
+Position Options:
+┌─────────────────────────────────────────┐
+│ [top-left]              [top-right]     │
+│                                         │
+│                                         │
+│                                         │
+│                                         │
+│ [bottom-left]        [bottom-right]     │
+└─────────────────────────────────────────┘
+
+Toast Stack (bottom-right example):
+                        ┌─────────────────────┐
+                        │ ✓ File saved     ✕  │
+                        └─────────────────────┘
+                        ┌─────────────────────┐
+                        │ ⚠ Low storage    ✕  │
+                        └─────────────────────┘
+                        ┌─────────────────────┐
+                        │ ✕ Upload failed  ✕  │
+                        └─────────────────────┘
+
+Toast Types:
+┌──────────────────────────────────────┐
+│ ℹ️  Info message              ✕      │  (blue)
+└──────────────────────────────────────┘
+┌──────────────────────────────────────┐
+│ ✅  Success message           ✕      │  (green)
+└──────────────────────────────────────┘
+┌──────────────────────────────────────┐
+│ ⚠️  Warning message           ✕      │  (yellow)
+└──────────────────────────────────────┘
+┌──────────────────────────────────────┐
+│ ❌  Error message             ✕      │  (red)
+└──────────────────────────────────────┘
 ```
 
 ## User Stories
 
-### Story 1: Show Success Toast
+### Story 1: Show Basic Toast
 **As a** developer
-**I want to** show a success message after an action completes
-**So that** users know their action was successful
+**I want to** display a toast message
+**So that** I can notify users of events
 
 **Acceptance Criteria:**
-- [ ] Given I call `SparkToast.success('Saved')`, a green toast appears
-- [ ] Given the toast appears, it has a checkmark icon
-- [ ] Given 4 seconds pass, the toast auto-dismisses
-- [ ] Given the toast dismisses, it slides out with animation
+- [ ] Given `SparkToast.show('message')`, when called, then toast appears on screen
+- [ ] Given a toast, when duration elapses, then toast automatically dismisses
+- [ ] Given default duration (3000ms), when toast shows, then it dismisses after 3 seconds
 
-### Story 2: Show Error Toast
+### Story 2: Toast Types
 **As a** developer
-**I want to** show an error message when something fails
-**So that** users understand what went wrong
+**I want to** show different types of toasts
+**So that** users understand the nature of the notification
 
 **Acceptance Criteria:**
-- [ ] Given I call `SparkToast.error('Failed')`, a red toast appears
-- [ ] Given the toast appears, it has an X icon
-- [ ] Given `duration: 0`, the toast does NOT auto-dismiss
-- [ ] Given the toast has close button, clicking it dismisses the toast
+- [ ] Given `type: 'info'`, when rendered, then toast has blue styling and info icon
+- [ ] Given `type: 'success'`, when rendered, then toast has green styling and check icon
+- [ ] Given `type: 'warning'`, when rendered, then toast has yellow styling and warning icon
+- [ ] Given `type: 'error'`, when rendered, then toast has red styling and error icon
 
-### Story 3: Toast with Action
-**As a** developer
-**I want to** add an action button to toasts
-**So that** users can take immediate follow-up action (e.g., Undo)
+### Story 3: Manual Dismiss
+**As a** user
+**I want to** dismiss toasts manually
+**So that** I can clear notifications I've read
 
 **Acceptance Criteria:**
-- [ ] Given action option provided, an action button appears in the toast
-- [ ] Given user clicks action button, the `onClick` callback fires
-- [ ] Given action is clicked, the toast dismisses
-- [ ] Given action is clicked, `spark-toast-action` event fires
+- [ ] Given a toast, when close button is clicked, then toast dismisses immediately
+- [ ] Given a toast reference, when `.dismiss()` is called, then toast dismisses
+- [ ] Given `duration: 0`, when toast shows, then it stays until manually dismissed
 
 ### Story 4: Toast Stacking
-**As a** user
-**I want to** see multiple toasts stacked
-**So that** I don't miss any notifications
-
-**Acceptance Criteria:**
-- [ ] Given multiple toasts shown, they stack vertically with 8px gap
-- [ ] Given more than 5 toasts, the oldest auto-dismiss to make room
-- [ ] Given a toast in stack dismisses, others animate to fill the gap
-- [ ] Given toasts are in bottom position, newest appears on top
-
-### Story 5: Toast Positioning
 **As a** developer
-**I want to** choose where toasts appear
-**So that** I can avoid covering important UI elements
+**I want to** show multiple toasts
+**So that** users see all relevant notifications
 
 **Acceptance Criteria:**
-- [ ] Given `position: 'top-right'`, toasts appear in top-right corner
-- [ ] Given `position: 'bottom-center'`, toasts appear at bottom center
-- [ ] Given different positions used, toasts group by position independently
+- [ ] Given multiple `show()` calls, when rendered, then toasts stack vertically
+- [ ] Given stacked toasts, when one dismisses, then others reposition smoothly
+- [ ] Given max stack limit (default 5), when exceeded, then oldest toast dismisses
 
-### Story 6: Dismissible Control
+### Story 5: Position Options
 **As a** developer
-**I want to** control whether toasts have close buttons
-**So that** I can create non-dismissible notifications when needed
+**I want to** control where toasts appear
+**So that** I can position them appropriately for my layout
 
 **Acceptance Criteria:**
-- [ ] Given `dismissible: false`, no close button appears
-- [ ] Given `dismissible: false` and `duration: 0`, toast stays until API dismisses it
-- [ ] Given `dismissible: true` (default), close button appears
+- [ ] Given `position: 'top-right'` (default), then toasts appear in top-right corner
+- [ ] Given `position: 'top-left'`, then toasts appear in top-left corner
+- [ ] Given `position: 'bottom-right'`, then toasts appear in bottom-right corner
+- [ ] Given `position: 'bottom-left'`, then toasts appear in bottom-left corner
 
-### Story 7: Accessibility
+### Story 6: Screen Reader Accessibility
 **As a** screen reader user
-**I want to** have toasts announced appropriately
-**So that** I'm aware of notifications
+**I want to** hear toast announcements
+**So that** I'm informed of notifications
 
 **Acceptance Criteria:**
-- [ ] Given toast appears, it has `role="alert"` for important messages
-- [ ] Given toast appears, it has `aria-live="polite"` for info messages
-- [ ] Given error toast appears, it has `aria-live="assertive"`
-- [ ] Given toast has close button, it has `aria-label="Dismiss notification"`
+- [ ] Given a toast appears, then message is announced via aria-live region
+- [ ] Given `type: 'error'`, then announcement is assertive (aria-live="assertive")
+- [ ] Given non-error type, then announcement is polite (aria-live="polite")
+
+### Story 7: Shorthand Methods
+**As a** developer
+**I want to** use convenient shorthand methods
+**So that** I can show typed toasts quickly
+
+**Acceptance Criteria:**
+- [ ] Given `SparkToast.success('msg')`, then success toast shows
+- [ ] Given `SparkToast.error('msg')`, then error toast shows
+- [ ] Given `SparkToast.warning('msg')`, then warning toast shows
+- [ ] Given `SparkToast.info('msg')`, then info toast shows
 
 ## Technical Approach
 
 ### Architecture
-The toast system has two parts:
-1. `SparkToast` - Static class managing toast state and rendering
-2. `<spark-toast>` - Web Component for declarative usage
 
-A single toast container element is injected into the DOM to hold all toasts.
-
-### File Structure
 ```
-src/components/toast/
-├── toast.js           # SparkToast class + spark-toast element
-├── toast-container.js # Internal container management
-├── toast.css          # Styles (embedded)
-└── toast.test.js      # Unit tests
+SparkToast (Global API - Singleton)
+├── Configuration (position, maxStack, defaultDuration)
+├── Toast Queue (active toasts)
+└── Container Element (creates if not exists)
+
+spark-toast-container (Custom Element)
+├── Shadow Root
+│   ├── <style>
+│   └── <div class="toast-stack" role="region" aria-live="polite">
+│       └── [toast elements inserted here]
+
+Individual Toast (Internal element)
+├── <div class="toast toast--{type}">
+│   ├── <span class="icon">{icon}</span>
+│   ├── <span class="message">{message}</span>
+│   └── <button class="close">✕</button>
 ```
 
-### Toast Manager (Singleton)
+### Key Components
+
+- **SparkToast:** Global singleton API for showing/managing toasts
+- **spark-toast-container:** Optional custom element for positioning
+- **Toast instance:** Individual toast with dismiss method
+
+### API
 
 ```javascript
-class SparkToast {
-  static #toasts = new Map();
-  static #containers = new Map(); // One per position
-  
-  static show(options) {
-    const id = crypto.randomUUID();
-    const toast = this.#createToast(id, options);
-    this.#getContainer(options.position).appendChild(toast);
-    // Auto-dismiss timer
-    if (options.duration > 0) {
-      setTimeout(() => this.dismiss(id), options.duration);
-    }
-    return id;
-  }
-  
-  static success(message) { return this.show({ message, type: 'success' }); }
-  static error(message) { return this.show({ message, type: 'error', duration: 0 }); }
-  static warning(message) { return this.show({ message, type: 'warning' }); }
-  static info(message) { return this.show({ message, type: 'info' }); }
-  
-  static dismiss(id) { /* Remove toast, trigger animation */ }
-  static dismissAll() { /* Clear all toasts */ }
+// Main API
+SparkToast.show(message: string | ToastOptions): ToastInstance
+SparkToast.success(message: string, options?: ToastOptions): ToastInstance
+SparkToast.error(message: string, options?: ToastOptions): ToastInstance
+SparkToast.warning(message: string, options?: ToastOptions): ToastInstance
+SparkToast.info(message: string, options?: ToastOptions): ToastInstance
+SparkToast.configure(options: GlobalOptions): void
+SparkToast.dismissAll(): void
+
+// ToastOptions
+interface ToastOptions {
+  message: string;
+  type?: 'info' | 'success' | 'warning' | 'error';
+  duration?: number; // ms, 0 for persistent
 }
 
-// Make available globally
-window.SparkToast = SparkToast;
+// GlobalOptions
+interface GlobalOptions {
+  position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
+  maxStack?: number;
+  defaultDuration?: number;
+}
+
+// ToastInstance
+interface ToastInstance {
+  dismiss(): void;
+}
 ```
 
-### Toast Container Structure
+### CSS Custom Properties
 
-```html
-<!-- Injected into document.body -->
-<div class="spark-toast-container" data-position="bottom-right">
-  <div class="spark-toast" role="alert" aria-live="polite">
-    <span class="toast-icon"><!-- SVG --></span>
-    <span class="toast-message">Message text</span>
-    <button class="toast-action">Undo</button>
-    <button class="toast-close" aria-label="Dismiss">×</button>
-  </div>
-  <!-- More toasts stack here -->
-</div>
+```css
+--spark-toast-bg: white;
+--spark-toast-text: var(--spark-secondary);
+--spark-toast-radius: var(--spark-radius-md);
+--spark-toast-shadow: var(--spark-shadow-md);
+--spark-toast-padding: var(--spark-spacing-sm) var(--spark-spacing-md);
+--spark-toast-gap: var(--spark-spacing-sm);
+--spark-toast-z-index: 1100;
+--spark-toast-info: var(--spark-primary);
+--spark-toast-success: var(--spark-success);
+--spark-toast-warning: var(--spark-warning);
+--spark-toast-error: var(--spark-error);
 ```
 
-### Animation Strategy
-- Use CSS transitions for enter/exit
-- Position transitions for stack reflow
-- `@starting-style` for enter animations (or JS fallback)
-- Transform + opacity for smooth performance
+### File Structure
+
+```
+src/components/toast/
+├── toast.js        # SparkToast API + container element
+├── toast.css       # Component styles
+└── toast.test.js   # Unit tests
+```
 
 ### Dependencies
-- None (vanilla Web Components)
-- Uses shared design tokens from `src/tokens/tokens.css`
+
+- None (zero runtime dependencies)
+- Uses global design tokens from `src/tokens/tokens.css`
+
+### Animation
+
+```css
+/* Entry animation */
+@keyframes spark-toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Exit animation */
+@keyframes spark-toast-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+```
 
 ## Edge Cases
 
 | Case | Expected Behavior |
 |------|-------------------|
-| Very long message | Text wraps, toast expands vertically |
-| Rapid successive toasts | All appear in queue, respecting max visible |
-| Dismiss during animation | Cancel animation, remove immediately |
-| Click action + dismiss simultaneously | Action takes precedence, dismiss prevented |
-| Page navigation | Toasts persist (unless SPA clears them) |
-| Zero duration | Toast stays until manually dismissed |
-| Container doesn't exist | Create container on first toast |
+| No container in DOM | Auto-create container in document.body |
+| Multiple containers | Use first one found |
+| Toast shown before DOM ready | Queue and show when ready |
+| Very long message | Text wraps, toast expands height |
+| Rapid successive toasts | Queue and show in order, respect maxStack |
+| Page navigation (SPA) | Container persists, toasts remain |
+| Duration of 0 | Toast persists until manual dismiss |
 
 ## Out of Scope
 
-- [ ] Toast persistence across page reloads
-- [ ] Promise-based toasts (loading → success)
-- [ ] Custom icons beyond type defaults
-- [ ] Toast grouping/deduplication
-- [ ] Sound notifications
-- [ ] Progress bar for duration
+- [ ] Action buttons on toasts (e.g., "Undo")
+- [ ] Progress indicator for timed toasts
+- [ ] Custom icons beyond type icons
+- [ ] Toast grouping/collapsing similar messages
+- [ ] Promise-based toasts (loading → success/error)
+- [ ] Rich HTML content in messages
 
 ## Open Questions
 
-*None - spec is ready for implementation.*
+- [x] Should toasts pause timer on hover? → **No, keep simple for MVP**
+- [x] Click on toast body to dismiss? → **No, only close button**
 
 ## Implementation Tasks
 
@@ -382,5 +335,5 @@ _Generated by `/create-tasks` after spec approval_
 
 | Date | Author | Change |
 |------|--------|--------|
-| 2025-12-03 | AI Assistant | Initial draft |
+| 2025-12-03 | AI Assistant | Initial specification |
 

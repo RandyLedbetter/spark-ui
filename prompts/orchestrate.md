@@ -1,179 +1,203 @@
-# /orchestrate - Parallel Implementation with Cloud Agents
+# /orchestrate - Launch Cloud Agents for Parallel Implementation
 
-> Use this prompt to orchestrate multiple Cloud Agents for parallel task implementation.
+> Use this workflow to implement multiple independent tasks in parallel using Cursor Cloud Agents.
 
 ## What This Does
 
-Instead of implementing tasks yourself, you act as the **orchestrator**:
-1. Analyze the sprint for independent tasks
-2. Spawn specialized Cloud Agents for each task
-3. Monitor their progress
-4. Present results to the user for review
+The `/orchestrate` command analyzes your sprint and launches Cloud Agents to work on independent tasks simultaneously. Each agent:
+- Works on a separate branch
+- Creates a PR when done
+- Can be monitored and managed
 
 ## Prerequisites
 
-Before using this command:
-1. Ensure your project is connected to GitHub
-2. Set up `CURSOR_API_KEY` environment variable
-3. Have a specification with tasks in `docs/sprint.yaml`
+Before orchestrating:
+1. **GitHub repository** - Your project must be connected to GitHub
+2. **API key configured** - In `.cursor-agent-os.yaml` or `CURSOR_API_KEY` env var
+3. **Tasks defined** - Run `/create-tasks` to populate `docs/sprint.yaml`
 
-## Instructions
+## How to Use
 
-I'll help you orchestrate parallel implementation using Cursor Cloud Agents.
+### Step 1: I'll Analyze Your Sprint
 
-## Process
+Let me read your `docs/sprint.yaml` to identify tasks that can run in parallel.
 
-### 1. Analyze Current Sprint
-First, I'll read `docs/sprint.yaml` to identify tasks for the current spec:
+I look for:
+- Tasks with `status: pending`
+- Tasks with no unmet dependencies (`depends_on` completed)
+- Tasks from different specs that are independent
 
-```yaml
-# docs/sprint.yaml structure
-specs:
-  [spec-name]:
-    status: in-progress
-    tasks:
-      - id: task-001
-        name: Setup database models
-        status: pending
-        depends_on: []
-      - id: task-002
-        name: Create API endpoints
-        status: pending
-        depends_on: [task-001]
-      - id: task-003
-        name: Add validation
-        status: pending
-        depends_on: []
+### Step 2: Launch Cloud Agents
+
+Once tasks are identified, I'll run the orchestrate command for you:
+
+```bash
+cursor-agent-os orchestrate --auto
 ```
 
-### 2. Identify Independent Tasks
-I'll analyze task dependencies to find tasks that can run in parallel:
-- Tasks with no dependencies (`depends_on: []`)
-- Tasks whose dependencies are already complete
+The `--auto` flag allows non-interactive execution, which is perfect when I'm running commands for you.
 
-### 3. Generate Agent Instructions
-For each independent task, I'll prepare clear instructions including:
-- The specific task to implement
-- Reference to the spec file
-- Coding standards to follow
-- Files to create/modify
-- Acceptance criteria
+**Important:** If the user has "Run Everything" or terminal permissions enabled, run this command directly. Don't just tell them to run it - execute it yourself and report the results.
 
-### 4. Launch Cloud Agents
-With your approval, I'll launch agents via the Cloud Agents API:
+### Step 3: Monitor Progress
 
-```javascript
-// Each agent gets:
-{
-  instructions: "Implement [task-name]...",
-  repository: "github.com/[your-repo]",
-  ref: "main",
-  target: {
-    autoCreatePr: true,
-    branchName: "feature/[task-id]"
-  }
-}
+After launching, monitor your agents:
+
+```bash
+# List all agents
+cursor-agent-os agents list
+
+# Check specific agent
+cursor-agent-os agents status <agent-id>
+
+# Verify API key
+cursor-agent-os agents verify
 ```
+
+### Step 4: Review and Merge PRs
+
+When agents complete:
+1. Review the PRs they created
+2. Merge approved PRs
+3. Update `docs/sprint.yaml` to mark tasks done
+4. Run `cursor-agent-os orchestrate` again for dependent tasks
 
 ## Example Workflow
 
 ```
 You: /orchestrate
 
-AI: 📋 Analyzing sprint.yaml...
+AI: I've analyzed your sprint.yaml. Here's what I found:
 
-    Current spec: user-authentication
-    
-    📊 Task Analysis:
-    ├── task-001: Setup models ✅ (done)
-    ├── task-002: API endpoints ⏳ (depends on task-001 ✓)
-    ├── task-003: Validation ⏳ (no dependencies)
-    └── task-004: Tests ⏳ (depends on task-002, task-003)
-    
-    🚀 Ready to orchestrate 2 agents in parallel:
-    1. task-002: Create API endpoints
-    2. task-003: Add validation
-    
-    Each agent will:
-    - Create a feature branch
-    - Implement the task following specs
-    - Open a PR for review
-    
-    Proceed? [Y/n]
+    Current Specs:
+    - button-component: 2 tasks pending
+    - card-component: 2 tasks pending
+    - input-component: 3 tasks pending
 
-You: y
+    Ready for parallel implementation (no dependencies):
+    - button-setup (button-component)
+    - card-setup (card-component)
+    - input-setup (input-component)
 
-AI: ☁️ Launching Cloud Agents...
-    
-    ✅ Agent launched: task-002 (agent-abc123)
-    ✅ Agent launched: task-003 (agent-def456)
-    
-    Monitor progress:
-    - npx cursor-agent-os agents list
-    - npx cursor-agent-os agents status agent-abc123
-    
-    PRs will be created automatically when complete.
+    Run this command to launch 3 Cloud Agents:
+
+    $ cursor-agent-os orchestrate
+
+You: [runs the command]
+
+CLI Output:
+    ☁️  Orchestrating Cloud Agents
+
+    🔑 Verifying API key...
+       ✓ API key valid (my-key-name)
+
+    📋 Analyzing tasks...
+
+    ✓ Found 3 task(s) ready for parallel implementation:
+
+    ───────────────────────────────────────────────
+       button-setup: Set up button component structure
+       Spec: button-component
+
+       card-setup: Set up card component structure
+       Spec: card-component
+
+       input-setup: Set up input component structure
+       Spec: input-component
+    ───────────────────────────────────────────────
+
+    📦 Repository: github.com/username/project
+
+    Launch 3 Cloud Agent(s)? [Y/n]: y
+
+    🚀 Launching Cloud Agents...
+
+       Launching agent for button-setup...
+       ✓ Agent launched: agent-abc123
+       Launching agent for card-setup...
+       ✓ Agent launched: agent-def456
+       Launching agent for input-setup...
+       ✓ Agent launched: agent-ghi789
+
+    📊 Summary
+       ✓ Launched: 3 agent(s)
+
+    🔍 Monitor Progress
+       cursor-agent-os agents list
+       cursor-agent-os agents status agent-abc123
+       cursor-agent-os agents status agent-def456
+       cursor-agent-os agents status agent-ghi789
 ```
 
 ## /implement vs /orchestrate
 
-| Command | Who does the work | How |
-|---------|------------------|-----|
-| `/implement [task]` | Main agent (you) | Sequential, one task at a time |
-| `/orchestrate` | Cloud Agents | Parallel, multiple tasks simultaneously |
+| Aspect | `/implement [task]` | `/orchestrate` |
+|--------|---------------------|----------------|
+| Who works | Main agent (me) | Cloud Agents |
+| How | Sequential, one task at a time | Parallel, multiple tasks |
+| Output | Direct code changes | PRs for review |
+| Best for | Dependent tasks, careful oversight | Independent tasks, fast development |
+| Requires | Nothing extra | GitHub repo + API key |
 
-Use `/implement` for:
-- Single tasks
-- Tasks requiring careful human oversight
-- When Cloud Agents aren't configured
+## Troubleshooting
 
-Use `/orchestrate` for:
-- Multiple independent tasks
-- Faster parallel implementation
-- When you want to review PRs rather than code directly
-
-## Safety Features
-
-- **Approval Required:** Agents won't launch without your confirmation
-- **Independent Tasks Only:** Only tasks without pending dependencies
-- **One PR per Task:** Each agent creates a separate PR for review
-- **Spec-Driven:** Agents follow the specification exactly
-
-## Managing Agents
-
-After launching, you can:
-
-```bash
-# List all running agents
-npx cursor-agent-os agents list
-
-# Check specific agent status
-npx cursor-agent-os agents status <agent-id>
-
-# Verify API key is working
-npx cursor-agent-os agents verify
+### "Cloud Agents not configured"
+Add your API key to `.cursor-agent-os.yaml`:
+```yaml
+cursor_api_key: "your-key-here"
 ```
 
-## After Completion
+Or set environment variable:
+```bash
+export CURSOR_API_KEY="your-key-here"
+```
 
-When agents complete:
-1. Review the PRs they created
-2. Merge approved PRs
-3. Update `docs/sprint.yaml` to mark tasks as done
-4. Run `/orchestrate` again for dependent tasks
+### "No tasks ready"
+- Ensure tasks exist in `docs/sprint.yaml`
+- Check that task dependencies are met
+- Verify tasks have `status: pending`
 
-## Configuration
-
-Cloud Agents settings in `.cursor/agent-os-config.yaml`:
-
-```yaml
-cloud_agents:
-  enabled: true
-  max_parallel: 4          # Max simultaneous agents
-  auto_launch: false       # Require approval
-  require_approval: true   # Confirm before each launch
+### "No GitHub repository"
+Set up a remote:
+```bash
+git remote add origin https://github.com/username/repo.git
 ```
 
 ---
 
-*Cloud Agents require a GitHub repository and Cursor API key.*
+## After Orchestration
+
+When agents are launched, present a summary and flexible next steps:
+
+```
+---
+## Summary
+---
+✓ Analyzed sprint.yaml for parallel tasks
+✓ Launched [N] Cloud Agent(s)
+✓ Agents working on: [list tasks]
+✓ PRs will be created when complete
+
+---
+## Next Steps
+---
+
+Based on the orchestration, here are your options:
+
+1. **Monitor agents** - Run `cursor-agent-os agents list` to check progress
+2. **Continue other work** - Work on dependent tasks or other features
+3. **Wait for completion** - Agents will create PRs when done
+4. **Review early results** - Check if any PRs are ready to merge
+
+**Quick Actions:**
+- Reply "status" to check agent status
+- Reply "wait" and I'll periodically check for completed PRs
+- Reply with a number to choose that option
+- Or tell me what you'd like to do while agents work
+
+I'll adapt to whatever direction you want to take.
+```
+
+---
+
+Ready to orchestrate? Let me analyze your sprint!

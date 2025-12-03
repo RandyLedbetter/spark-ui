@@ -1,11 +1,11 @@
-# cursor-agent-os configuration (contains API keys)
-.cursor-agent-os.yaml
+# Dependencies
+node_modules/
 
-# Local environment
-.env
-.env.local
+# Build output
+dist/
 
-# Editor
+# IDE
+.vscode/
 .idea/
 *.swp
 *.swo
@@ -14,3 +14,13 @@
 .DS_Store
 Thumbs.db
 
+# Logs
+*.log
+npm-debug.log*
+
+# Test coverage
+coverage/
+
+# Environment
+.env
+.env.local

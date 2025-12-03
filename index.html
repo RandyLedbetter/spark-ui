@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spark UI - Component Library</title>
+  <link rel="stylesheet" href="./src/tokens/tokens.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: var(--spark-font-family);
+      background: var(--spark-gray-50);
+      color: var(--spark-gray-900);
+      line-height: var(--spark-line-height-normal);
+      padding: var(--spark-spacing-xl);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: var(--spark-spacing-2xl);
+    }
+    
+    header h1 {
+      font-size: var(--spark-font-size-3xl);
+      font-weight: var(--spark-font-weight-bold);
+      color: var(--spark-primary);
+      margin-bottom: var(--spark-spacing-sm);
+    }
+    
+    header p {
+      color: var(--spark-gray-600);
+      font-size: var(--spark-font-size-lg);
+    }
+    
+    .component-section {
+      background: var(--spark-white);
+      border-radius: var(--spark-radius-lg);
+      box-shadow: var(--spark-shadow-md);
+      padding: var(--spark-spacing-lg);
+      margin-bottom: var(--spark-spacing-lg);
+    }
+    
+    .component-section h2 {
+      font-size: var(--spark-font-size-xl);
+      font-weight: var(--spark-font-weight-semibold);
+      margin-bottom: var(--spark-spacing-md);
+      padding-bottom: var(--spark-spacing-sm);
+      border-bottom: 1px solid var(--spark-gray-200);
+    }
+    
+    .component-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spark-spacing-md);
+      align-items: center;
+    }
+    
+    .placeholder {
+      background: var(--spark-gray-100);
+      border: 2px dashed var(--spark-gray-300);
+      border-radius: var(--spark-radius-md);
+      padding: var(--spark-spacing-lg);
+      color: var(--spark-gray-500);
+      text-align: center;
+      width: 100%;
+    }
+    
+    .color-swatch {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spark-spacing-sm);
+    }
+    
+    .swatch {
+      width: 60px;
+      height: 60px;
+      border-radius: var(--spark-radius-md);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: var(--spark-spacing-xs);
+      font-size: var(--spark-font-size-xs);
+      color: white;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+    
+    .token-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: var(--spark-spacing-md);
+    }
+    
+    .token-item {
+      padding: var(--spark-spacing-sm);
+      background: var(--spark-gray-50);
+      border-radius: var(--spark-radius-sm);
+    }
+    
+    .token-item code {
+      font-family: var(--spark-font-family-mono);
+      font-size: var(--spark-font-size-sm);
+      color: var(--spark-primary);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>✨ Spark UI</h1>
+      <p>A lightweight, accessible Web Component library</p>
+    </header>
+    
+    <!-- Design Tokens Demo -->
+    <section class="component-section">
+      <h2>🎨 Design Tokens</h2>
+      <p style="margin-bottom: var(--spark-spacing-md); color: var(--spark-gray-600);">
+        These tokens power all Spark UI components. Override them to customize your theme.
+      </p>
+      
+      <h3 style="margin: var(--spark-spacing-md) 0 var(--spark-spacing-sm); font-size: var(--spark-font-size-md);">Colors</h3>
+      <div class="color-swatch">
+        <div class="swatch" style="background: var(--spark-primary);">Primary</div>
+        <div class="swatch" style="background: var(--spark-secondary);">Secondary</div>
+        <div class="swatch" style="background: var(--spark-success);">Success</div>
+        <div class="swatch" style="background: var(--spark-warning);">Warning</div>
+        <div class="swatch" style="background: var(--spark-error);">Error</div>
+        <div class="swatch" style="background: var(--spark-info);">Info</div>
+      </div>
+      
+      <h3 style="margin: var(--spark-spacing-md) 0 var(--spark-spacing-sm); font-size: var(--spark-font-size-md);">Shadows</h3>
+      <div class="component-grid">
+        <div style="width: 100px; height: 60px; background: white; border-radius: var(--spark-radius-md); box-shadow: var(--spark-shadow-sm); display: flex; align-items: center; justify-content: center; font-size: var(--spark-font-size-sm);">sm</div>
+        <div style="width: 100px; height: 60px; background: white; border-radius: var(--spark-radius-md); box-shadow: var(--spark-shadow-md); display: flex; align-items: center; justify-content: center; font-size: var(--spark-font-size-sm);">md</div>
+        <div style="width: 100px; height: 60px; background: white; border-radius: var(--spark-radius-md); box-shadow: var(--spark-shadow-lg); display: flex; align-items: center; justify-content: center; font-size: var(--spark-font-size-sm);">lg</div>
+        <div style="width: 100px; height: 60px; background: white; border-radius: var(--spark-radius-md); box-shadow: var(--spark-shadow-xl); display: flex; align-items: center; justify-content: center; font-size: var(--spark-font-size-sm);">xl</div>
+      </div>
+    </section>
+    
+    <!-- Button Component -->
+    <section class="component-section">
+      <h2>🔘 Button Component</h2>
+      <div class="placeholder">
+        <code>&lt;spark-button&gt;</code> - Coming soon
+      </div>
+    </section>
+    
+    <!-- Card Component -->
+    <section class="component-section">
+      <h2>🃏 Card Component</h2>
+      <div class="placeholder">
+        <code>&lt;spark-card&gt;</code> - Coming soon
+      </div>
+    </section>
+    
+    <!-- Input Component -->
+    <section class="component-section">
+      <h2>📝 Input Component</h2>
+      <div class="placeholder">
+        <code>&lt;spark-input&gt;</code> - Coming soon
+      </div>
+    </section>
+    
+    <!-- Modal Component -->
+    <section class="component-section">
+      <h2>💬 Modal Component</h2>
+      <div class="placeholder">
+        <code>&lt;spark-modal&gt;</code> - Coming soon
+      </div>
+    </section>
+    
+    <!-- Toast Component -->
+    <section class="component-section">
+      <h2>🍞 Toast Component</h2>
+      <div class="placeholder">
+        <code>SparkToast</code> - Coming soon
+      </div>
+    </section>
+    
+    <!-- Avatar Component -->
+    <section class="component-section">
+      <h2>👤 Avatar Component</h2>
+      <div class="placeholder">
+        <code>&lt;spark-avatar&gt;</code> - Coming soon
+      </div>
+    </section>
+  </div>
+  
+  <script type="module">
+    import { VERSION } from './src/index.js';
+    console.log('Spark UI Demo loaded');
+  </script>
+</body>
+</html>
+

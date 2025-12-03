@@ -7,307 +7,289 @@
 
 ## Overview
 
-The `<spark-modal>` Web Component provides an accessible dialog/modal overlay with focus trapping, keyboard navigation, and backdrop support. It's essential for confirmations, forms, and focused user interactions.
+The `<spark-modal>` component is an accessible dialog Web Component that displays content in a layer above the page. It handles backdrop, focus management, keyboard interactions, and proper ARIA semantics for modal dialogs.
 
 ## Problem Statement
 
 ### The Problem
-Building accessible modals is complex—developers must handle focus trapping, keyboard navigation, scroll locking, and ARIA attributes correctly. Most implementations miss critical accessibility requirements.
+Building accessible modals is notoriously difficult:
+- Focus must be trapped within the modal
+- Focus must return to trigger element on close
+- Escape key should close the modal
+- Backdrop click behavior needs handling
+- Screen readers need proper announcements
+- Scroll locking on the body
+
+Most developers get several of these wrong.
 
 ### Current State
-Developers either:
-- Use framework-specific modal libraries (React Modal, Vue Dialog, etc.)
-- Build custom modals that often lack proper accessibility
-- Use native `<dialog>` which has inconsistent browser support and limited styling
+Developers use framework-specific modal libraries, build broken custom implementations, or skip modals entirely in favor of new pages.
 
 ### Impact
-Modals are critical for user confirmations, form inputs, and focused workflows. An accessible, well-designed modal component prevents accessibility issues and improves user experience.
+Modals are essential for confirmations, forms, and focused interactions. A properly built modal component:
+- Ensures accessibility compliance
+- Improves user experience
+- Reduces developer burden
 
 ## Proposed Solution
 
 ### User Experience
-Developers create modals with semantic HTML and control them via JavaScript:
 
 ```html
 <spark-modal id="confirm-modal">
-  <spark-modal-header>
-    <h2>Confirm Action</h2>
-  </spark-modal-header>
+  <spark-modal-header>Confirm Action</spark-modal-header>
   <spark-modal-body>
-    <p>Are you sure you want to delete this item? This action cannot be undone.</p>
+    Are you sure you want to delete this item?
+    This action cannot be undone.
   </spark-modal-body>
   <spark-modal-footer>
-    <spark-button variant="secondary" data-close>Cancel</spark-button>
+    <spark-button variant="secondary" data-modal-close>Cancel</spark-button>
     <spark-button variant="danger">Delete</spark-button>
   </spark-modal-footer>
 </spark-modal>
 
-<spark-button onclick="document.getElementById('confirm-modal').open()">
+<spark-button onclick="document.querySelector('#confirm-modal').open()">
   Delete Item
 </spark-button>
+
+<script>
+  const modal = document.querySelector('#confirm-modal');
+  modal.addEventListener('close', (e) => {
+    console.log('Modal closed');
+  });
+</script>
 ```
 
-### API Reference
-
-#### `<spark-modal>` Attributes
-
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `open` | boolean | `false` | Whether the modal is visible (reflects open state) |
-| `size` | string | `"md"` | Modal width: `sm` (400px), `md` (500px), `lg` (700px), `xl` (900px), `full` |
-| `close-on-backdrop` | boolean | `true` | Whether clicking backdrop closes modal |
-| `close-on-escape` | boolean | `true` | Whether pressing Escape closes modal |
-| `no-close-button` | boolean | `false` | Hides the X close button |
-
-#### Methods
-
-| Method | Parameters | Description |
-|--------|------------|-------------|
-| `open()` | none | Opens the modal |
-| `close()` | none | Closes the modal |
-| `toggle()` | none | Toggles open state |
-
-#### Events
-
-| Event | Detail | Description |
-|-------|--------|-------------|
-| `spark-modal-open` | `{}` | Fired when modal opens |
-| `spark-modal-close` | `{ trigger: 'button' \| 'backdrop' \| 'escape' \| 'api' }` | Fired when modal closes |
-
-#### CSS Custom Properties
-
-| Property | Default | Description |
-|----------|---------|-------------|
-| `--spark-modal-backdrop-color` | `rgba(0,0,0,0.5)` | Backdrop overlay color |
-| `--spark-modal-background` | `#ffffff` | Modal content background |
-| `--spark-modal-border-radius` | `var(--spark-radius-lg)` | Corner radius |
-| `--spark-modal-z-index` | `1000` | Stacking order |
-
-#### Sub-components
-
-- `<spark-modal-header>` - Optional header section (contains title, close button)
-- `<spark-modal-body>` - Main content area (scrollable if content overflows)
-- `<spark-modal-footer>` - Optional footer section (typically action buttons)
-
-#### Data Attributes
-
-| Attribute | Description |
-|-----------|-------------|
-| `data-close` | Any element with this attribute closes the modal when clicked |
-
-### Visual Specifications
+### Visual Design
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ MODAL STRUCTURE                                              │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ ← Backdrop      │
-│  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   (semi-        │
-│  ░░░░░┌─────────────────────────────┐░░░░░░   transparent)  │
-│  ░░░░░│ Header                   [X]│░░░░░░                 │
-│  ░░░░░├─────────────────────────────┤░░░░░░                 │
-│  ░░░░░│                             │░░░░░░                 │
-│  ░░░░░│ Body (scrollable)           │░░░░░░                 │
-│  ░░░░░│                             │░░░░░░                 │
-│  ░░░░░├─────────────────────────────┤░░░░░░                 │
-│  ░░░░░│ Footer        [Cancel][Save]│░░░░░░                 │
-│  ░░░░░└─────────────────────────────┘░░░░░░                 │
-│  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░                 │
-│                                                              │
-├─────────────────────────────────────────────────────────────┤
-│ SIZE VARIANTS                                                │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  sm:   max-width: 400px                                     │
-│  md:   max-width: 500px    ← default                        │
-│  lg:   max-width: 700px                                     │
-│  xl:   max-width: 900px                                     │
-│  full: max-width: calc(100vw - 2rem), max-height: 90vh      │
-│                                                              │
-├─────────────────────────────────────────────────────────────┤
-│ ANIMATIONS                                                   │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  Open:  Backdrop fades in (0→1 opacity, 200ms)              │
-│         Modal scales up (0.95→1, 200ms ease-out)            │
-│                                                              │
-│  Close: Reverse of open animation                           │
-│                                                              │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────┐
+│░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│
+│░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│
+│░░░░░░░┌─────────────────────────────────────┐░░░░░░░░░│
+│░░░░░░░│  Modal Header                    ✕  │░░░░░░░░░│
+│░░░░░░░├─────────────────────────────────────┤░░░░░░░░░│
+│░░░░░░░│                                     │░░░░░░░░░│
+│░░░░░░░│  Modal body content goes here.      │░░░░░░░░░│
+│░░░░░░░│                                     │░░░░░░░░░│
+│░░░░░░░├─────────────────────────────────────┤░░░░░░░░░│
+│░░░░░░░│              [Cancel] [Confirm]     │░░░░░░░░░│
+│░░░░░░░└─────────────────────────────────────┘░░░░░░░░░│
+│░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│
+│░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│
+└─────────────────────────────────────────────────────────┘
+  ░ = Backdrop (semi-transparent)
+
+Size Variants:
+┌───────────┐  ┌─────────────────┐  ┌───────────────────────┐
+│   Small   │  │     Medium      │  │         Large         │
+│  400px    │  │     600px       │  │        800px          │
+└───────────┘  └─────────────────┘  └───────────────────────┘
 ```
 
 ## User Stories
 
-### Story 1: Basic Modal Usage
+### Story 1: Open and Close Modal
 **As a** developer
-**I want to** create a modal with header, body, and footer
-**So that** I can display focused content that requires user attention
+**I want to** programmatically open and close modals
+**So that** I can control when dialogs appear
 
 **Acceptance Criteria:**
-- [ ] Given I add `<spark-modal>` with content, it renders hidden by default
-- [ ] Given I call `modal.open()`, the modal becomes visible with backdrop
-- [ ] Given I call `modal.close()`, the modal hides
-- [ ] Given the modal is open, `spark-modal-open` event has fired
+- [ ] Given a modal element, when `.open()` is called, then modal becomes visible
+- [ ] Given an open modal, when `.close()` is called, then modal becomes hidden
+- [ ] Given an open modal, when closed, then `close` event fires
 
-### Story 2: Close Modal Methods
-**As a** developer
-**I want to** close modals via multiple methods
-**So that** users have flexible ways to dismiss dialogs
-
-**Acceptance Criteria:**
-- [ ] Given modal is open, clicking the X button closes it (`trigger: 'button'`)
-- [ ] Given modal is open, clicking backdrop closes it (`trigger: 'backdrop'`)
-- [ ] Given modal is open, pressing Escape closes it (`trigger: 'escape'`)
-- [ ] Given `close-on-backdrop="false"`, clicking backdrop does NOT close modal
-- [ ] Given `close-on-escape="false"`, pressing Escape does NOT close modal
-
-### Story 3: Focus Trapping
-**As a** keyboard user
-**I want to** have my focus trapped within the modal
-**So that** I can navigate the modal content without accidentally leaving it
-
-**Acceptance Criteria:**
-- [ ] Given modal opens, focus moves to the first focusable element inside
-- [ ] Given focus is on last focusable element, pressing Tab moves to first
-- [ ] Given focus is on first focusable element, pressing Shift+Tab moves to last
-- [ ] Given modal closes, focus returns to the element that opened it
-
-### Story 4: Scroll Locking
+### Story 2: Backdrop Behavior
 **As a** user
-**I want to** not accidentally scroll the page behind the modal
-**So that** I can focus on the modal content
+**I want to** close the modal by clicking the backdrop
+**So that** I can dismiss dialogs quickly
 
 **Acceptance Criteria:**
-- [ ] Given modal is open, body scroll is disabled (`overflow: hidden` on body)
-- [ ] Given modal is closed, body scroll is restored
-- [ ] Given modal body content overflows, it scrolls independently
+- [ ] Given an open modal, when backdrop is clicked, then modal closes
+- [ ] Given `backdrop="static"`, when backdrop is clicked, then modal does NOT close
+- [ ] Given backdrop click close, then `close` event includes `reason: 'backdrop'`
 
-### Story 5: Size Variants
+### Story 3: Escape Key Close
+**As a** keyboard user
+**I want to** close modals with Escape key
+**So that** I can dismiss dialogs without reaching for mouse
+
+**Acceptance Criteria:**
+- [ ] Given an open modal, when Escape is pressed, then modal closes
+- [ ] Given `escape="false"`, when Escape is pressed, then modal does NOT close
+- [ ] Given Escape close, then `close` event includes `reason: 'escape'`
+
+### Story 4: Focus Trap
+**As a** keyboard user
+**I want to** have focus trapped within the modal
+**So that** I can navigate the modal content without accidentally leaving
+
+**Acceptance Criteria:**
+- [ ] Given an open modal, when opened, then focus moves to first focusable element
+- [ ] Given modal is focused, when Tab reaches last element and Tab is pressed, then focus moves to first element
+- [ ] Given modal is focused, when Shift+Tab on first element, then focus moves to last element
+- [ ] Given modal closes, then focus returns to element that triggered open
+
+### Story 5: Close Button
+**As a** user
+**I want to** see a visible close button
+**So that** I can dismiss the dialog obviously
+
+**Acceptance Criteria:**
+- [ ] Given a modal with header, when rendered, then close button appears in header
+- [ ] Given close button, when clicked, then modal closes
+- [ ] Given `closable="false"`, when rendered, then no close button appears
+
+### Story 6: Modal Sections
 **As a** developer
-**I want to** choose different modal sizes
-**So that** I can fit different types of content appropriately
+**I want to** organize modal content into header, body, footer
+**So that** I can create consistent dialog layouts
 
 **Acceptance Criteria:**
-- [ ] Given `size="sm"`, modal max-width is 400px
-- [ ] Given `size="md"` (default), modal max-width is 500px
-- [ ] Given `size="lg"`, modal max-width is 700px
-- [ ] Given `size="xl"`, modal max-width is 900px
-- [ ] Given `size="full"`, modal takes most of the viewport
+- [ ] Given `<spark-modal-header>`, when rendered, then it appears at top with title styling
+- [ ] Given `<spark-modal-body>`, when rendered, then it appears scrollable in middle
+- [ ] Given `<spark-modal-footer>`, when rendered, then it appears fixed at bottom
 
-### Story 6: Accessibility
+### Story 7: Size Variants
+**As a** developer
+**I want to** control modal width
+**So that** I can size modals appropriately for their content
+
+**Acceptance Criteria:**
+- [ ] Given `size="small"`, when rendered, then modal is ~400px wide
+- [ ] Given `size="medium"` (default), when rendered, then modal is ~600px wide
+- [ ] Given `size="large"`, when rendered, then modal is ~800px wide
+- [ ] Given `size="full"`, when rendered, then modal fills viewport (with margin)
+
+### Story 8: Screen Reader Accessibility
 **As a** screen reader user
 **I want to** have the modal properly announced
-**So that** I understand the context and can interact with it
+**So that** I understand a dialog has opened
 
 **Acceptance Criteria:**
-- [ ] Given modal is open, it has `role="dialog"`
-- [ ] Given modal has a header, it has `aria-labelledby` pointing to header
-- [ ] Given modal is open, it has `aria-modal="true"`
-- [ ] Given modal has close button, it has `aria-label="Close"`
-
-### Story 7: Data-Close Buttons
-**As a** developer
-**I want to** easily make buttons close the modal
-**So that** I don't have to write JavaScript for cancel buttons
-
-**Acceptance Criteria:**
-- [ ] Given any element inside modal has `data-close`, clicking it closes the modal
-- [ ] Given cancel button has `data-close`, clicking it closes with `trigger: 'button'`
+- [ ] Given an open modal, then `role="dialog"` is present
+- [ ] Given an open modal, then `aria-modal="true"` is set
+- [ ] Given modal header, then modal is labeled by header via `aria-labelledby`
 
 ## Technical Approach
 
 ### Architecture
-The modal is implemented as Custom Elements with a singleton backdrop manager to handle stacking of multiple modals.
+
+```
+spark-modal (Custom Element)
+├── Shadow Root
+│   ├── <style>
+│   ├── <div class="backdrop">
+│   └── <div class="modal" role="dialog" aria-modal="true">
+│       ├── <button class="close-button">✕</button>
+│       └── <slot> (content projection)
+
+spark-modal-header (Custom Element)
+├── Shadow Root
+│   └── <header><slot></slot></header>
+
+spark-modal-body (Custom Element)
+├── Shadow Root
+│   └── <div class="body"><slot></slot></div>
+
+spark-modal-footer (Custom Element)
+├── Shadow Root
+│   └── <footer><slot></slot></footer>
+```
+
+### Key Components
+
+- **SparkModal:** Main component handling open/close, focus trap, keyboard events
+- **SparkModalHeader:** Title section, provides label for dialog
+- **SparkModalBody:** Scrollable content area
+- **SparkModalFooter:** Action buttons area
+
+### Attributes/Properties
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `open` | boolean | `false` | Controls visibility |
+| `size` | string | `"medium"` | Width variant |
+| `backdrop` | string | `"true"` | Backdrop close behavior (`true`, `static`) |
+| `escape` | boolean | `true` | Allow Escape to close |
+| `closable` | boolean | `true` | Show close button |
+
+### Methods
+
+| Method | Description |
+|--------|-------------|
+| `open()` | Opens the modal |
+| `close(reason?)` | Closes the modal with optional reason |
+
+### Events
+
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `open` | `{}` | Fires when modal opens |
+| `close` | `{ reason: 'button' \| 'backdrop' \| 'escape' \| 'api' }` | Fires when modal closes |
+
+### CSS Custom Properties
+
+```css
+--spark-modal-bg: white;
+--spark-modal-radius: var(--spark-radius-lg);
+--spark-modal-shadow: var(--spark-shadow-lg);
+--spark-modal-backdrop: rgba(0, 0, 0, 0.5);
+--spark-modal-z-index: 1000;
+--spark-modal-padding: var(--spark-spacing-lg);
+```
 
 ### File Structure
+
 ```
 src/components/modal/
-├── modal.js          # Main modal component
-├── modal-header.js   # Header sub-component
-├── modal-body.js     # Body sub-component  
-├── modal-footer.js   # Footer sub-component
-├── modal.css         # Styles (embedded)
-└── modal.test.js     # Unit tests
+├── modal.js        # Main modal + subcomponents
+├── modal.css       # Component styles
+└── modal.test.js   # Unit tests
 ```
-
-### Component Class
-
-```javascript
-class SparkModal extends HTMLElement {
-  static get observedAttributes() {
-    return ['open', 'size', 'close-on-backdrop', 'close-on-escape', 'no-close-button'];
-  }
-  
-  // Public API
-  open() { /* Show modal, trap focus, lock scroll */ }
-  close() { /* Hide modal, restore focus, unlock scroll */ }
-  toggle() { /* Toggle open state */ }
-  
-  // Focus management
-  #trapFocus() { /* Implement focus trap */ }
-  #restoreFocus() { /* Return focus to trigger */ }
-  
-  // Event handlers
-  #handleKeydown(e) { /* Escape key, Tab trapping */ }
-  #handleBackdropClick(e) { /* Close on backdrop */ }
-}
-
-customElements.define('spark-modal', SparkModal);
-```
-
-### Shadow DOM Structure
-
-```html
-<div class="modal-backdrop" part="backdrop">
-  <div class="modal-container" part="container" role="dialog" aria-modal="true">
-    <button class="modal-close" part="close-button" aria-label="Close">
-      <svg><!-- X icon --></svg>
-    </button>
-    <slot></slot>
-  </div>
-</div>
-```
-
-### Focus Management Strategy
-1. On open: Store `document.activeElement` as return target
-2. Query all focusable elements inside modal
-3. On Tab: If at end, go to start; if at start+Shift, go to end
-4. On close: Return focus to stored element
-
-### Scroll Lock Strategy
-1. On open: Add `overflow: hidden` to `document.body`
-2. Store original overflow value
-3. On close: Restore original overflow value
-4. Handle multiple modals (reference counting)
 
 ### Dependencies
-- None (vanilla Web Components)
-- Uses shared design tokens from `src/tokens/tokens.css`
+
+- None (zero runtime dependencies)
+- Uses global design tokens from `src/tokens/tokens.css`
+
+### Focus Management Implementation
+
+```javascript
+// On open:
+// 1. Store document.activeElement as returnFocus
+// 2. Query all focusable elements inside modal
+// 3. Focus first focusable element
+// 4. Add keydown listener for Tab trap
+
+// On close:
+// 1. Remove keydown listener
+// 2. Return focus to returnFocus element
+```
 
 ## Edge Cases
 
 | Case | Expected Behavior |
 |------|-------------------|
-| No focusable elements | Focus the modal container itself |
-| Modal opens another modal | Stack modals, maintain focus trap per modal |
-| Long body content | Body section scrolls, header/footer fixed |
-| Browser back button | Does not close modal (no history manipulation) |
-| Open while already open | No-op, stays open |
-| Close while already closed | No-op, stays closed |
-| Removed from DOM while open | Cleanup scroll lock and focus |
+| No focusable elements in modal | Focus the modal container itself |
+| Modal opened from element that disappears | Focus returns to body |
+| Multiple modals open | Stack modals, Escape closes topmost |
+| Very tall content | Body section scrolls, header/footer fixed |
+| Modal open on page load | Works, but no returnFocus element |
+| `data-modal-close` on any element | That element closes the modal when clicked |
 
 ## Out of Scope
 
-- [ ] Drawer/slide-in variant (separate component)
-- [ ] Confirmation modal shorthand/factory function
-- [ ] Alert dialogs (use native alert or dedicated component)
-- [ ] Modal stacking management beyond focus (z-index is fixed)
-- [ ] Animation customization (fixed enter/exit)
+- [ ] Drawer/slide-in variants (separate component)
+- [ ] Confirmation dialog helper (wrapper, not core)
+- [ ] Alert dialogs (`role="alertdialog"` variant)
+- [ ] Nested modal stacking management
+- [ ] Animation/transition customization
 
 ## Open Questions
 
-*None - spec is ready for implementation.*
+- [x] Should body scroll be locked when modal is open? → **Yes, prevent background scroll**
+- [x] Should clicking inside modal but outside content close it? → **No, only explicit backdrop click**
 
 ## Implementation Tasks
 
@@ -319,5 +301,5 @@ _Generated by `/create-tasks` after spec approval_
 
 | Date | Author | Change |
 |------|--------|--------|
-| 2025-12-03 | AI Assistant | Initial draft |
+| 2025-12-03 | AI Assistant | Initial specification |
 

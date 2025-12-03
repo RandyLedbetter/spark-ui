@@ -65,3 +65,38 @@ Update `docs/sprint.yaml`:
 - [ ] Scope is appropriate for appetite
 - [ ] Dependencies are identified
 
+---
+
+## After Completion
+
+When the spec is complete, present a summary and flexible next steps:
+
+```
+---
+## Summary
+---
+✓ Created specification: docs/specs/[feature-name].md
+✓ Defined [N] user stories with acceptance criteria
+✓ Documented technical approach
+✓ Listed out-of-scope items
+✓ Updated sprint.yaml with new spec
+
+---
+## Next Steps
+---
+
+Based on what we've specified, here are your options:
+
+1. **Create implementation tasks** - Use `/create-tasks` to break this into tasks
+2. **Review the spec** - Walk through the spec together for feedback
+3. **Write another spec** - Shape and spec the next feature
+4. **Address open questions** - Resolve unknowns before proceeding
+
+**Quick Actions:**
+- Reply "go" or "1" to create implementation tasks
+- Reply with a number to choose that option
+- Or tell me what you'd like to adjust in the spec
+
+I'll adapt to whatever direction you want to take.
+```
+

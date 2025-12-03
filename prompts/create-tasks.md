@@ -76,3 +76,38 @@ specs:
 - Leave room for iteration
 - Mark dependencies clearly
 
+---
+
+## After Completion
+
+When tasks are created, present a summary and flexible next steps:
+
+```
+---
+## Summary
+---
+✓ Created [N] tasks from the specification
+✓ Estimated total effort: [X hours/days]
+✓ Identified [N] tasks ready to start (no dependencies)
+✓ Updated docs/sprint.yaml with task list
+
+---
+## Next Steps
+---
+
+Based on the task breakdown, here are your options:
+
+1. **Start implementing** - Use `/implement [task-id]` for sequential implementation
+2. **Orchestrate parallel work** - Use `/orchestrate` to launch Cloud Agents
+3. **Review task breakdown** - Walk through tasks for feedback
+4. **Adjust estimates/scope** - Refine the task definitions
+
+**Quick Actions:**
+- Reply "go" or "1" to start implementing the first task
+- Reply "orchestrate" to launch parallel agents
+- Reply with a number to choose that option
+- Or tell me which task you'd like to start with
+
+I'll adapt to whatever direction you want to take.
+```
+

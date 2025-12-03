@@ -83,6 +83,81 @@ Additional rules are loaded based on context:
 }
 ```
 
+## Progress Reporting Format
+
+When executing workflow commands, use consistent visual formatting to keep the user informed:
+
+### Phase Headers
+
+Mark each major phase of work with a clear header:
+
+```
+---
+## [Phase Name]
+---
+```
+
+### Status Indicators
+
+Use these patterns to show progress:
+- **Starting:** "Starting [action]..."
+- **In Progress:** "Working on [item]..."
+- **Reading:** "Reading [file]..."
+- **Complete:** "✓ Completed [item]"
+- **Found:** "Found [count] [items]"
+
+### Results Format
+
+Present results in clear, scannable lists:
+
+```
+Found 4 tasks ready for implementation:
+- task-001: Set up component structure
+- task-002: Implement core logic
+- task-003: Add styling
+- task-004: Write tests
+```
+
+### Summary Sections
+
+End each major workflow with a summary:
+
+```
+---
+## Summary
+---
+✓ [What was accomplished]
+✓ [Files created/modified]
+✓ [Status updates made]
+```
+
+## Flexible User Interaction
+
+At the end of each workflow phase, present options flexibly:
+
+```
+## Next Steps
+
+Based on what we've accomplished:
+
+1. [First recommendation]
+2. [Second recommendation]
+3. [Third recommendation]
+
+**Quick Actions:**
+- Reply "go" or "continue" to proceed with all recommendations
+- Reply "skip [number]" to skip a specific recommendation  
+- Or tell me what you'd like to change or do differently
+
+I'll adapt to whatever direction you want to take.
+```
+
+**Always:**
+- Accept arbitrary user input gracefully
+- Don't get derailed by unexpected requests
+- Incorporate user modifications into the workflow
+- Ask clarifying questions if the user's intent is unclear
+
 ## Important Notes
 
 - Always verify your understanding of a task before implementing

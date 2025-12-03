@@ -7,284 +7,230 @@
 
 ## Overview
 
-The `<spark-card>` Web Component provides a flexible container for grouping related content with optional header, body, and footer sections. It's a foundational layout component for displaying structured information.
+The `<spark-card>` component is a flexible container Web Component for grouping related content with optional header and footer sections. It provides consistent visual structure with customizable elevation and optional interactivity.
 
 ## Problem Statement
 
 ### The Problem
-Developers need consistent content containers with proper visual hierarchy, but existing solutions require framework-specific implementations or complex CSS setups.
+Cards are a ubiquitous UI pattern, but developers repeatedly:
+- Write custom card CSS for each project
+- Struggle with consistent spacing and elevation
+- Forget accessibility considerations for interactive cards
+- Build inconsistent header/footer patterns
 
 ### Current State
-Developers either:
-- Build custom card layouts from scratch each time
-- Use framework-specific card components that don't transfer between projects
-- Struggle with consistent spacing, shadows, and visual hierarchy
+Developers create custom card implementations or use framework-specific component libraries that don't work across projects.
 
 ### Impact
-Cards are essential for displaying grouped content like user profiles, product listings, settings panels, and article previews. A well-designed card component enables rapid UI development.
+Cards organize content across dashboards, lists, and detail views. A well-designed card component improves:
+- Visual consistency across applications
+- Developer productivity (no custom CSS)
+- Accessibility for interactive card patterns
 
 ## Proposed Solution
 
 ### User Experience
-Developers compose cards using intuitive slot-based HTML:
 
 ```html
 <spark-card>
   <spark-card-header>
     <h3>Card Title</h3>
-    <p>Subtitle text</p>
   </spark-card-header>
   <spark-card-body>
-    <p>Main content goes here. This is the body of the card.</p>
+    Card content goes here. This can include text,
+    images, or any other HTML content.
   </spark-card-body>
   <spark-card-footer>
-    <spark-button variant="ghost">Cancel</spark-button>
-    <spark-button variant="primary">Save</spark-button>
+    <spark-button>Action</spark-button>
   </spark-card-footer>
+</spark-card>
+
+<!-- Simple card without sections -->
+<spark-card>
+  <p>Simple content card</p>
+</spark-card>
+
+<!-- Clickable card -->
+<spark-card clickable elevation="2">
+  <spark-card-body>
+    Click anywhere on this card
+  </spark-card-body>
 </spark-card>
 ```
 
-### API Reference
-
-#### `<spark-card>` Attributes
-
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `elevation` | string | `"md"` | Shadow depth: `none`, `sm`, `md`, `lg` |
-| `variant` | string | `"default"` | Style variant: `default`, `outlined`, `filled` |
-| `clickable` | boolean | `false` | Adds hover effect and cursor pointer |
-| `padding` | string | `"md"` | Internal padding: `none`, `sm`, `md`, `lg` |
-
-#### `<spark-card-header>` Attributes
-
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `divider` | boolean | `false` | Shows bottom border separator |
-
-#### `<spark-card-body>` Attributes
-
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `scroll` | boolean | `false` | Enables vertical scrolling with max-height |
-
-#### `<spark-card-footer>` Attributes
-
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `divider` | boolean | `false` | Shows top border separator |
-| `align` | string | `"end"` | Content alignment: `start`, `center`, `end`, `between` |
-
-#### Events
-
-| Event | Detail | Description |
-|-------|--------|-------------|
-| `spark-card-click` | `{ originalEvent: MouseEvent }` | Fired when clickable card is clicked |
-
-#### CSS Custom Properties
-
-| Property | Default | Description |
-|----------|---------|-------------|
-| `--spark-card-background` | `#ffffff` | Card background color |
-| `--spark-card-border-radius` | `var(--spark-radius-lg)` | Corner radius |
-| `--spark-card-border-color` | `#e2e8f0` | Border color (for outlined variant) |
-
-### Visual Specifications
+### Visual Design
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ CARD STRUCTURE                                               │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  ┌────────────────────────────────────┐                     │
-│  │ HEADER (optional)                  │ ← spark-card-header │
-│  │ Title, subtitle, avatar, actions   │                     │
-│  ├────────────────────────────────────┤ ← optional divider  │
-│  │                                    │                     │
-│  │ BODY                               │ ← spark-card-body   │
-│  │ Main content area                  │                     │
-│  │ Can contain any content            │                     │
-│  │                                    │                     │
-│  ├────────────────────────────────────┤ ← optional divider  │
-│  │ FOOTER (optional)         [Cancel] │ ← spark-card-footer │
-│  │                            [Save]  │   align="end"       │
-│  └────────────────────────────────────┘                     │
-│                                                              │
-├─────────────────────────────────────────────────────────────┤
-│ ELEVATION LEVELS                                             │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  none: No shadow, optional border                           │
-│  sm:   0 1px 2px rgba(0,0,0,0.05)                          │
-│  md:   0 4px 6px rgba(0,0,0,0.1)      ← default            │
-│  lg:   0 10px 15px rgba(0,0,0,0.1)                         │
-│                                                              │
-├─────────────────────────────────────────────────────────────┤
-│ VARIANTS                                                     │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  default:  White background + shadow                        │
-│  outlined: White background + 1px border, no shadow         │
-│  filled:   Light gray background (#f8fafc), no shadow       │
-│                                                              │
-├─────────────────────────────────────────────────────────────┤
-│ PADDING SIZES                                                │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  none: 0                                                    │
-│  sm:   0.75rem (12px)                                       │
-│  md:   1.5rem (24px)          ← default                     │
-│  lg:   2rem (32px)                                          │
-│                                                              │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────┐
+│  Card Header (optional)                 │
+│  ─────────────────────────────────────  │
+│                                         │
+│  Card Body                              │
+│  Lorem ipsum dolor sit amet,            │
+│  consectetur adipiscing elit.           │
+│                                         │
+│  ─────────────────────────────────────  │
+│  Card Footer (optional)     [Action]    │
+└─────────────────────────────────────────┘
+
+Elevation Levels:
+┌─────────┐  ┌─────────┐  ┌─────────┐
+│ Level 0 │  │ Level 1 │  │ Level 2 │
+│ (flat)  │  │ (subtle)│  │ (raised)│
+└─────────┘  └─────────┘  └─────────┘
+     ░            ░░           ░░░
 ```
 
 ## User Stories
 
-### Story 1: Basic Card Usage
+### Story 1: Basic Card Container
 **As a** developer
-**I want to** create a card with header, body, and footer sections
-**So that** I can display structured content in a visually consistent container
+**I want to** wrap content in a card container
+**So that** I can visually group related content
 
 **Acceptance Criteria:**
-- [ ] Given I add `<spark-card>` with child elements, they render inside a styled container
-- [ ] Given I add `<spark-card-header>`, it appears at the top with appropriate styling
-- [ ] Given I add `<spark-card-body>`, it fills the main content area
-- [ ] Given I add `<spark-card-footer>`, it appears at the bottom
+- [ ] Given a `<spark-card>` element, when rendered, then content displays with default styling
+- [ ] Given content inside the card, when rendered, then content is visible with proper padding
+- [ ] Given a card, when rendered, then it has a subtle border and background
 
-### Story 2: Simple Card (Body Only)
+### Story 2: Card Sections
 **As a** developer
-**I want to** create a simple card with just content
-**So that** I can use cards without requiring header/footer
+**I want to** organize card content into header, body, and footer
+**So that** I can create structured layouts
 
 **Acceptance Criteria:**
-- [ ] Given `<spark-card><p>Content</p></spark-card>`, the content renders properly
-- [ ] Given no header/body/footer components used, the card renders with default padding
+- [ ] Given `<spark-card-header>`, when rendered, then it appears at top with distinct styling
+- [ ] Given `<spark-card-body>`, when rendered, then it appears in middle with content padding
+- [ ] Given `<spark-card-footer>`, when rendered, then it appears at bottom with distinct styling
+- [ ] Given sections in any order, when rendered, then they display in correct positions
 
 ### Story 3: Card Elevation
 **As a** developer
-**I want to** control the shadow depth of cards
-**So that** I can create visual hierarchy in my layouts
+**I want to** control card shadow depth
+**So that** I can create visual hierarchy
 
 **Acceptance Criteria:**
-- [ ] Given `elevation="none"`, no shadow is applied
-- [ ] Given `elevation="sm"`, a subtle shadow appears
-- [ ] Given `elevation="md"` (default), a medium shadow appears
-- [ ] Given `elevation="lg"`, a prominent shadow appears
+- [ ] Given `elevation="0"`, when rendered, then card has no shadow
+- [ ] Given `elevation="1"` (default), when rendered, then card has subtle shadow
+- [ ] Given `elevation="2"`, when rendered, then card has medium shadow
+- [ ] Given `elevation="3"`, when rendered, then card has prominent shadow
 
 ### Story 4: Clickable Card
 **As a** developer
 **I want to** make entire cards clickable
-**So that** I can use them as navigation elements or selectable items
+**So that** users can navigate by clicking anywhere on the card
 
 **Acceptance Criteria:**
-- [ ] Given `clickable` attribute, the card has `cursor: pointer`
-- [ ] Given `clickable` card is hovered, it shows a hover effect (slight lift/shadow increase)
-- [ ] Given `clickable` card is clicked, `spark-card-click` event fires
-- [ ] Given `clickable` card, pressing Enter while focused activates it
+- [ ] Given `clickable` attribute, when rendered, then card shows hover state on mouse over
+- [ ] Given `clickable` attribute, when clicked, then click event fires
+- [ ] Given `clickable` attribute, when focused and Enter pressed, then click event fires
+- [ ] Given `clickable` attribute, when rendered, then cursor changes to pointer
 
-### Story 5: Footer Alignment
-**As a** developer
-**I want to** control button alignment in card footers
-**So that** I can follow different UI patterns (left-aligned, right-aligned, spread)
-
-**Acceptance Criteria:**
-- [ ] Given `<spark-card-footer align="end">`, content aligns to the right
-- [ ] Given `<spark-card-footer align="start">`, content aligns to the left
-- [ ] Given `<spark-card-footer align="between">`, content spreads with space-between
-
-### Story 6: Dividers
-**As a** developer
-**I want to** add visual separators between card sections
-**So that** I can clearly delineate header, body, and footer areas
+### Story 5: Keyboard Accessibility
+**As a** keyboard user
+**I want to** interact with clickable cards via keyboard
+**So that** I can navigate without a mouse
 
 **Acceptance Criteria:**
-- [ ] Given `<spark-card-header divider>`, a border appears below the header
-- [ ] Given `<spark-card-footer divider>`, a border appears above the footer
+- [ ] Given a clickable card, when I press Tab, then the card receives focus
+- [ ] Given a focused clickable card, when I press Enter, then click event fires
+- [ ] Given a non-clickable card, when I press Tab, then card is not in focus order
 
 ## Technical Approach
 
 ### Architecture
-The card is implemented as a set of Custom Elements that work together: `spark-card` (container), `spark-card-header`, `spark-card-body`, and `spark-card-footer`.
+
+Card uses multiple Custom Elements: a parent container and optional child section elements.
+
+```
+spark-card (Custom Element)
+├── Shadow Root
+│   ├── <style>
+│   └── <div class="card">
+│       └── <slot> (default slot for all content)
+
+spark-card-header (Custom Element)
+├── Shadow Root
+│   ├── <style>
+│   └── <div class="header">
+│       └── <slot>
+
+spark-card-body (Custom Element)
+├── Shadow Root
+│   ├── <style>
+│   └── <div class="body">
+│       └── <slot>
+
+spark-card-footer (Custom Element)
+├── Shadow Root
+│   ├── <style>
+│   └── <div class="footer">
+│       └── <slot>
+```
+
+### Key Components
+
+- **SparkCard:** Main container, handles elevation and clickable behavior
+- **SparkCardHeader:** Header section with bottom border
+- **SparkCardBody:** Main content area with padding
+- **SparkCardFooter:** Footer section with top border
+
+### Attributes/Properties
+
+**spark-card:**
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `elevation` | number | `1` | Shadow depth (0-3) |
+| `clickable` | boolean | `false` | Makes entire card interactive |
+
+### CSS Custom Properties
+
+```css
+--spark-card-bg: white;
+--spark-card-border: 1px solid rgba(0,0,0,0.1);
+--spark-card-radius: var(--spark-radius-lg);
+--spark-card-padding: var(--spark-spacing-md);
+--spark-card-header-bg: transparent;
+--spark-card-footer-bg: rgba(0,0,0,0.02);
+```
 
 ### File Structure
+
 ```
 src/components/card/
-├── card.js           # Main card container component
-├── card-header.js    # Header sub-component
-├── card-body.js      # Body sub-component
-├── card-footer.js    # Footer sub-component
-├── card.css          # Shared styles (embedded)
-└── card.test.js      # Unit tests
+├── card.js         # Main card + subcomponents
+├── card.css        # Component styles
+└── card.test.js    # Unit tests
 ```
-
-### Component Classes
-
-```javascript
-// Main container
-class SparkCard extends HTMLElement {
-  static get observedAttributes() {
-    return ['elevation', 'variant', 'clickable', 'padding'];
-  }
-}
-customElements.define('spark-card', SparkCard);
-
-// Sub-components
-class SparkCardHeader extends HTMLElement {
-  static get observedAttributes() { return ['divider']; }
-}
-customElements.define('spark-card-header', SparkCardHeader);
-
-class SparkCardBody extends HTMLElement {
-  static get observedAttributes() { return ['scroll']; }
-}
-customElements.define('spark-card-body', SparkCardBody);
-
-class SparkCardFooter extends HTMLElement {
-  static get observedAttributes() { return ['divider', 'align']; }
-}
-customElements.define('spark-card-footer', SparkCardFooter);
-```
-
-### Shadow DOM Structure (spark-card)
-
-```html
-<div class="spark-card" part="card">
-  <slot></slot>
-</div>
-```
-
-### Styling Strategy
-- Container uses CSS Grid or Flexbox for layout
-- Sub-components style themselves but inherit card padding context
-- CSS custom properties enable theming
-- `part` attributes for deep styling customization
 
 ### Dependencies
-- None (vanilla Web Components)
-- Uses shared design tokens from `src/tokens/tokens.css`
+
+- None (zero runtime dependencies)
+- Uses global design tokens from `src/tokens/tokens.css`
 
 ## Edge Cases
 
 | Case | Expected Behavior |
 |------|-------------------|
-| Empty card | Renders with min-height, no content |
-| Only header | Card displays header only, properly styled |
-| Only body | Card displays body only with padding |
-| Nested cards | Inner cards render correctly |
-| Long content in body | Body expands; use `scroll` attribute to constrain |
-| No sub-components used | Default slot handles any content |
+| Sections used without parent card | Sections render but may lack proper spacing |
+| Multiple headers/footers | All render, but layout may be unexpected |
+| Empty card | Renders with minimum height |
+| Deeply nested cards | Allowed, but elevation should differ |
+| Clickable card with buttons inside | Inner buttons work independently, card click fires on other areas |
+| Invalid elevation value | Clamp to 0-3 range |
 
 ## Out of Scope
 
-- [ ] Media/image card variant (use slots for images)
-- [ ] Collapsible/expandable cards (separate component)
 - [ ] Card carousels/sliders
-- [ ] Horizontal card layout (use CSS Grid)
-- [ ] Card skeleton/loading state (separate pattern)
+- [ ] Card flip animations
+- [ ] Image card variants (handled via content)
+- [ ] Card selection/checkbox behavior
+- [ ] Collapsible/accordion cards
 
 ## Open Questions
 
-*None - spec is ready for implementation.*
+- [x] Should card sections be required? → **No, all optional for flexibility**
+- [x] Named slots vs. auto-detection? → **Use custom elements for clarity**
 
 ## Implementation Tasks
 
@@ -296,5 +242,5 @@ _Generated by `/create-tasks` after spec approval_
 
 | Date | Author | Change |
 |------|--------|--------|
-| 2025-12-03 | AI Assistant | Initial draft |
+| 2025-12-03 | AI Assistant | Initial specification |
 

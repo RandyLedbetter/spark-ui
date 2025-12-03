@@ -58,3 +58,38 @@ Create a shaping document that we can discuss. Once approved, we'll use `/write-
 - Focus on the core value, cut nice-to-haves
 - Fixed time, variable scope
 
+---
+
+## After Completion
+
+When shaping is complete, present a summary and flexible next steps:
+
+```
+---
+## Summary
+---
+✓ Problem defined: [brief description]
+✓ Appetite set: [small/medium/large]
+✓ Solution sketched: [approach]
+✓ Boundaries established: [in/out of scope]
+✓ Risks identified: [key risks]
+
+---
+## Next Steps
+---
+
+Based on what we've shaped, here are your options:
+
+1. **Write the detailed spec** - Use `/write-spec` to create the full specification
+2. **Refine the shaping** - Continue discussing approach and boundaries
+3. **Shape another feature** - Move on to shaping a different feature
+4. **Get stakeholder input** - Review open questions before proceeding
+
+**Quick Actions:**
+- Reply "go" or "1" to write the detailed spec
+- Reply with a number to choose that option
+- Or tell me what you'd like to adjust or explore
+
+I'll adapt to whatever direction you want to take.
+```
+

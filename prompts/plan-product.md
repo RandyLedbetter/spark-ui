@@ -45,3 +45,35 @@ After our discussion, update:
 - What would make them love this product?
 - What's the simplest version that delivers value?
 
+---
+
+## After Completion
+
+When planning is complete, present a summary and flexible next steps:
+
+```
+---
+## Summary
+---
+✓ Defined product vision in docs/product/vision.md
+✓ Created roadmap in docs/product/roadmap.md
+✓ Updated sprint.yaml to reflect planning phase complete
+
+---
+## Next Steps
+---
+
+Based on what we've accomplished, here are your options:
+
+1. **Start feature shaping** - Use `/shape-spec` to shape the first high-priority feature
+2. **Review the roadmap** - Walk through the features I've proposed
+3. **Refine the vision** - Continue discussing product direction
+
+**Quick Actions:**
+- Reply "go" or "1" to start shaping the first feature
+- Reply with a number to choose that option
+- Or tell me what you'd like to adjust or explore
+
+I'll adapt to whatever direction you want to take.
+```
+

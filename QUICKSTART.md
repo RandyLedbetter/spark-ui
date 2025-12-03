@@ -1,22 +1,36 @@
-# 🚀 cursor-agent-os Quickstart Guide
+# spark-ui Quick Start Guide
 
-> Welcome to **spark-ui**! This guide will help you get started with spec-driven development.
+cursor-agent-os v0.2.0 has been set up in your project. Here's how to get started.
 
-## Your First 5 Minutes
+---
 
-### Step 1: Open in Cursor IDE
+## Understanding the Setup
 
-Make sure you have this project open in [Cursor IDE](https://cursor.com). The AI assistant will automatically load your `.cursorrules` file which teaches it about your workflow commands.
-
-### Step 2: Plan Your Product (Optional but Recommended)
-
-In Cursor's chat (Cmd/Ctrl + L), type:
+Your project now contains:
 
 ```
-/plan-product
+.cursorrules              # Main AI instructions
+.cursor/rules/            # Contextual AI rules
+docs/product/             # Vision and roadmap
+docs/specs/               # Feature specifications  
+docs/standards/           # Coding standards
+docs/sprint.yaml          # Sprint tracking
+prompts/                  # Workflow command prompts
 ```
 
-> **Note:** The AI reads your `.cursorrules` and knows to execute the corresponding workflow from `prompts/plan-product.md`. If it doesn't respond, try: "Let's do /plan-product" or "Read prompts/plan-product.md and guide me through it"
+**The key insight:** When you type `/command` in Cursor's chat, the AI reads the corresponding prompt file from `prompts/` and follows it.
+
+---
+
+## Your First Session
+
+### 1. Start Planning
+
+Open Cursor's AI chat (Cmd/Ctrl + L) and type:
+
+```
+Read prompts/plan-product.md and let's do /plan-product
+```
 
 The AI will interview you about:
 - What problem you're solving
@@ -25,127 +39,149 @@ The AI will interview you about:
 
 **Output:** Updates `docs/product/vision.md` and `docs/product/roadmap.md`
 
-### Step 3: Shape Your First Feature
-
-Ready to build something? Type:
+### 2. Shape Your First Feature
 
 ```
-/shape-spec
+Let's do /shape-spec for [your-feature-name]
 ```
 
-Tell the AI what you want to build. For example:
-- "User authentication with email/password"
-- "A dashboard that shows sales metrics"
-- "REST API for managing products"
+This is a conversation where you and the AI define:
+- The problem scope
+- Your appetite (time budget)
+- Solution approach
+- What's in/out of scope
 
-The AI will ask clarifying questions and help you think through the feature.
+**Output:** A mental model of the feature, ready to document
 
-### Step 4: Write the Detailed Spec
-
-Once you've shaped the idea, type:
+### 3. Write the Specification
 
 ```
-/write-spec
+Now /write-spec to create the spec document
 ```
 
-This creates a detailed specification with:
-- User stories
-- Acceptance criteria
+The AI creates a detailed spec in `docs/specs/[feature-name].md` with:
+- Overview and goals
+- User stories with acceptance criteria
 - Technical approach
+- Out of scope items
 
-**Output:** Creates `docs/specs/[feature-name].md`
-
-### Step 5: Break Into Tasks
-
-Type:
+### 4. Create Tasks
 
 ```
-/create-tasks
+/create-tasks for [feature-name]
 ```
 
-The AI will analyze your spec and create implementable tasks in `docs/sprint.yaml`.
+The AI breaks your spec into implementable tasks:
+- Scaffolding and setup
+- Core functionality
+- Edge cases
+- Testing
 
-### Step 6: Implement!
+**Output:** Tasks added to `docs/sprint.yaml`
 
-Pick a task and type:
+### 5. Implement
 
+For sequential work:
 ```
-/implement [task-id]
+/implement task-001
 ```
 
-The AI will:
-1. Read the spec and task details
-2. Follow your coding standards
-3. Implement the feature
-4. Update the sprint status
+For parallel work (requires Cloud Agents):
+```
+/orchestrate
+```
+
+### 6. Verify
+
+When implementation is complete:
+```
+/verify
+```
+
+The AI reviews against acceptance criteria and updates status.
 
 ---
 
-## Command Reference
+## Available Commands
 
-| Command | What It Does |
-|---------|--------------|
+| Chat Command | Purpose |
+|--------------|---------|
 | `/help` | Show all available commands |
 | `/plan-product` | Define product vision and roadmap |
-| `/shape-spec` | Interview to shape a new feature |
-| `/write-spec` | Write detailed specification |
+| `/shape-spec` | Shape a feature through conversation |
+| `/write-spec` | Create detailed specification |
 | `/create-tasks` | Break spec into tasks |
-| `/implement [task]` | Implement a specific task (sequential) |
-| `/orchestrate` | Orchestrate Cloud Agents for parallel work |
-| `/verify` | Verify implementation matches spec |
+| `/implement [id]` | Implement a specific task |
+| `/orchestrate` | Launch Cloud Agents for parallel work |
+| `/verify` | Review against acceptance criteria |
 
----
-
-## Project Structure
-
-```
-spark-ui/
-├── .cursorrules              ← AI reads this automatically
-├── .cursor/rules/            ← Context-specific AI rules
-├── docs/
-│   ├── product/              ← Vision & roadmap
-│   ├── standards/            ← Coding conventions
-│   ├── specs/                ← Feature specifications
-│   └── sprint.yaml           ← Current sprint status
-└── prompts/                  ← Workflow command files
-```
-
----
-
-## Tips for Success
-
-### 💡 Be Specific in Specs
-The more detail in your specifications, the better the AI implements. Include:
-- Concrete examples
-- Edge cases
-- What NOT to build
-
-### 📋 Keep Sprint Updated
-After completing tasks, the AI updates `docs/sprint.yaml`. Check it with:
+## CLI Commands
 
 ```bash
-npx cursor-agent-os status
+cursor-agent-os status      # Show sprint progress
+cursor-agent-os list        # List all specs
+cursor-agent-os new-spec    # Create new spec
+cursor-agent-os validate    # Check for issues
+cursor-agent-os agents list # Show Cloud Agents
+cursor-agent-os help        # Show all commands
 ```
 
-### 🔄 Iterate
-Don't try to spec everything upfront. Build incrementally:
-1. Spec a small feature
-2. Implement it
-3. Verify it works
-4. Repeat
+---
 
-### 📚 Update Standards
-When you establish new patterns, add them to `docs/standards/coding.md` so the AI follows them consistently.
+## Tips for Best Results
+
+### 1. Front-Load Context
+
+Before starting a command, give the AI context:
+```
+Read docs/specs/user-auth.md and the current sprint.yaml, then /implement task-003
+```
+
+### 2. Use Next Steps
+
+Each workflow ends with suggested next steps. You can:
+- Reply with a number to choose an option
+- Reply "accept all" to proceed with defaults
+- Reply with specific modifications
+
+### 3. Keep Specs Updated
+
+If implementation reveals new requirements:
+```
+Let's update docs/specs/[feature].md to include [new requirement]
+```
+
+### 4. Track Progress
+
+```bash
+cursor-agent-os status
+```
+
+Shows your current sprint progress and what's next.
+
+---
+
+## Cloud Agents (Optional)
+
+If you enabled Cloud Agents during setup:
+
+1. **View Agents:** `cursor-agent-os agents list`
+2. **Orchestrate:** Use `/orchestrate` to launch parallel agents
+3. **Monitor:** Each agent creates a PR when done
+
+Cloud Agents work best for:
+- Independent components (UI library)
+- Isolated features (separate services)
+- Tasks without dependencies
 
 ---
 
 ## Need Help?
 
-- Type `/help` in Cursor for command reference
-- Run `npx cursor-agent-os help` for CLI options
-- Check your spec at `docs/specs/` if implementation seems wrong
+- Type `/help` in Cursor chat for command reference
+- Run `cursor-agent-os help` for CLI options
+- Check `prompts/` folder to see how each command works
 
 ---
 
-*Generated by cursor-agent-os v0.2.0 on 2025-12-03*
-
+Happy building! 🚀
