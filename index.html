@@ -165,8 +165,30 @@
     <!-- Input Component -->
     <section class="component-section">
       <h2>📝 Input Component</h2>
-      <div class="placeholder">
-        <code>&lt;spark-input&gt;</code> - Coming soon
+      <div style="display: grid; gap: var(--spark-spacing-md); max-width: 400px;">
+        <spark-input 
+          label="Email" 
+          type="email" 
+          placeholder="you@example.com">
+        </spark-input>
+        
+        <spark-input 
+          label="Password" 
+          type="password" 
+          helper="At least 8 characters"
+          required>
+        </spark-input>
+        
+        <spark-input 
+          label="Username" 
+          error="This username is already taken">
+        </spark-input>
+        
+        <spark-input 
+          label="Disabled Field" 
+          value="Cannot edit this"
+          disabled>
+        </spark-input>
       </div>
     </section>
     
@@ -196,7 +218,7 @@
   </div>
   
   <script type="module">
-    import { VERSION } from './src/index.js';
+    import { VERSION, SparkInput } from './src/index.js';
     console.log('Spark UI Demo loaded');
   </script>
 </body>
