@@ -35,6 +35,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "jsdom": "^27.2.0",
     "vite": "^5.0.0",
     "vitest": "^1.0.0"
   },
@@ -43,4 +44,3 @@
     "url": "https://github.com/RandyLedbetter/spark-ui.git"
   }
 }
-

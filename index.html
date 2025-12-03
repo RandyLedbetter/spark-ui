@@ -173,9 +173,66 @@
     <!-- Modal Component -->
     <section class="component-section">
       <h2>💬 Modal Component</h2>
-      <div class="placeholder">
-        <code>&lt;spark-modal&gt;</code> - Coming soon
+      <p style="margin-bottom: var(--spark-spacing-md); color: var(--spark-gray-600);">
+        Accessible modal dialog with backdrop, focus trap, and keyboard support.
+      </p>
+      <div class="component-grid">
+        <button onclick="document.querySelector('#demo-modal').open()" style="padding: 0.5rem 1rem; background: var(--spark-primary); color: white; border: none; border-radius: var(--spark-radius-md); cursor: pointer;">
+          Open Modal (Default)
+        </button>
+        <button onclick="document.querySelector('#demo-modal-small').open()" style="padding: 0.5rem 1rem; background: var(--spark-secondary); color: white; border: none; border-radius: var(--spark-radius-md); cursor: pointer;">
+          Small Modal
+        </button>
+        <button onclick="document.querySelector('#demo-modal-large').open()" style="padding: 0.5rem 1rem; background: var(--spark-info); color: white; border: none; border-radius: var(--spark-radius-md); cursor: pointer;">
+          Large Modal
+        </button>
+        <button onclick="document.querySelector('#demo-modal-static').open()" style="padding: 0.5rem 1rem; background: var(--spark-warning); color: white; border: none; border-radius: var(--spark-radius-md); cursor: pointer;">
+          Static Backdrop
+        </button>
       </div>
+      
+      <!-- Demo Modals -->
+      <spark-modal id="demo-modal">
+        <spark-modal-header>Confirm Action</spark-modal-header>
+        <spark-modal-body>
+          <p>Are you sure you want to proceed with this action? This will update your settings.</p>
+        </spark-modal-body>
+        <spark-modal-footer>
+          <button data-modal-close style="padding: 0.5rem 1rem; background: var(--spark-gray-200); border: none; border-radius: var(--spark-radius-md); cursor: pointer;">Cancel</button>
+          <button onclick="document.querySelector('#demo-modal').close('confirm')" style="padding: 0.5rem 1rem; background: var(--spark-primary); color: white; border: none; border-radius: var(--spark-radius-md); cursor: pointer;">Confirm</button>
+        </spark-modal-footer>
+      </spark-modal>
+      
+      <spark-modal id="demo-modal-small" size="small">
+        <spark-modal-header>Small Modal</spark-modal-header>
+        <spark-modal-body>
+          <p>This is a small modal (400px width). Good for quick confirmations.</p>
+        </spark-modal-body>
+        <spark-modal-footer>
+          <button data-modal-close style="padding: 0.5rem 1rem; background: var(--spark-gray-200); border: none; border-radius: var(--spark-radius-md); cursor: pointer;">Close</button>
+        </spark-modal-footer>
+      </spark-modal>
+      
+      <spark-modal id="demo-modal-large" size="large">
+        <spark-modal-header>Large Modal</spark-modal-header>
+        <spark-modal-body>
+          <p>This is a large modal (800px width). Perfect for complex forms or detailed content.</p>
+          <p style="margin-top: 1rem;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </spark-modal-body>
+        <spark-modal-footer>
+          <button data-modal-close style="padding: 0.5rem 1rem; background: var(--spark-gray-200); border: none; border-radius: var(--spark-radius-md); cursor: pointer;">Close</button>
+        </spark-modal-footer>
+      </spark-modal>
+      
+      <spark-modal id="demo-modal-static" backdrop="static">
+        <spark-modal-header>Static Backdrop</spark-modal-header>
+        <spark-modal-body>
+          <p>This modal won't close when clicking the backdrop. You must use the close button or Escape key.</p>
+        </spark-modal-body>
+        <spark-modal-footer>
+          <button data-modal-close style="padding: 0.5rem 1rem; background: var(--spark-primary); color: white; border: none; border-radius: var(--spark-radius-md); cursor: pointer;">Got it!</button>
+        </spark-modal-footer>
+      </spark-modal>
     </section>
     
     <!-- Toast Component -->
@@ -196,8 +253,14 @@
   </div>
   
   <script type="module">
-    import { VERSION } from './src/index.js';
-    console.log('Spark UI Demo loaded');
+    import { VERSION, SparkModal, SparkModalHeader, SparkModalBody, SparkModalFooter } from './src/index.js';
+    console.log(`Spark UI Demo loaded - v${VERSION}`);
+    
+    // Listen for modal events for demo purposes
+    document.querySelectorAll('spark-modal').forEach(modal => {
+      modal.addEventListener('open', () => console.log(`Modal ${modal.id} opened`));
+      modal.addEventListener('close', (e) => console.log(`Modal ${modal.id} closed (reason: ${e.detail.reason})`));
+    });
   </script>
 </body>
 </html>

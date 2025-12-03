@@ -275,7 +275,7 @@ specs:
           dialog container, and content slots.
         files:
           - src/components/modal/modal.js
-          - src/components/modal/modal.css
+          - src/components/modal/index.js
         acceptance_criteria:
           - spark-modal with backdrop and dialog
           - spark-modal-header, body, footer components
@@ -283,7 +283,8 @@ specs:
           - Hidden by default, visible when open
         depends_on: []
         estimate: 2h
-        status: pending
+        status: done
+        completed: '2025-12-03'
 
       - id: modal-002
         name: Modal size variants and close button
