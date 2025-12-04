@@ -1,0 +1,95 @@
+# /shape-spec - Feature Shaping Workflow
+
+> Use this prompt to shape a feature before detailed specification.
+
+## Instructions
+
+I need help shaping a feature for **spark-ui**.
+
+Shaping means defining:
+- **Problem** - What user problem are we solving?
+- **Appetite** - How much time should this take? (hours/days/weeks)
+- **Solution** - Rough approach, not detailed design
+- **Boundaries** - What's in and out of scope?
+- **Risks** - What could go wrong? What's unknown?
+
+## Process
+
+1. **Start with the Problem**
+   - Describe the user pain point
+   - Show concrete examples
+   - Explain why it matters
+
+2. **Set the Appetite**
+   - Small (hours): Bug fix, minor enhancement
+   - Medium (days): New feature, significant change
+   - Large (weeks): Major feature, architecture change
+
+3. **Sketch the Solution**
+   - Describe the approach at a high level
+   - Include rough UI sketches if applicable
+   - Identify key technical decisions
+
+4. **Define Boundaries**
+   - What's included in this work?
+   - What's explicitly excluded?
+   - What can be simplified?
+
+5. **Surface Risks**
+   - What don't we know yet?
+   - What could cause delays?
+   - Are there dependencies?
+
+## Current Context
+
+Review these files:
+- `docs/product/vision.md` - Product vision
+- `docs/product/roadmap.md` - Feature priorities
+- `docs/specs/` - Existing specifications
+
+## Output
+
+Create a shaping document that we can discuss. Once approved, we'll use `/write-spec` to create the detailed specification.
+
+## Remember
+
+- Shaping is about finding the right approach, not perfection
+- Leave room for implementation details
+- Focus on the core value, cut nice-to-haves
+- Fixed time, variable scope
+
+---
+
+## After Completion
+
+When shaping is complete, present a summary and flexible next steps:
+
+```
+---
+## Summary
+---
+✓ Problem defined: [brief description]
+✓ Appetite set: [small/medium/large]
+✓ Solution sketched: [approach]
+✓ Boundaries established: [in/out of scope]
+✓ Risks identified: [key risks]
+
+---
+## Next Steps
+---
+
+Based on what we've shaped, here are your options:
+
+1. **Write the detailed spec** - Use `/write-spec` to create the full specification
+2. **Refine the shaping** - Continue discussing approach and boundaries
+3. **Shape another feature** - Move on to shaping a different feature
+4. **Get stakeholder input** - Review open questions before proceeding
+
+**Quick Actions:**
+- Reply "go" or "1" to write the detailed spec
+- Reply with a number to choose that option
+- Or tell me what you'd like to adjust or explore
+
+I'll adapt to whatever direction you want to take.
+```
+

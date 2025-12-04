@@ -1,0 +1,402 @@
+name: Spark UI - Sprint 1
+phase: implementing
+current_spec: null
+specs:
+  foundation-setup:
+    status: done
+    completed: 2025-12-04
+    blocks:
+      - button-component
+      - card-component
+      - modal-component
+      - toast-component
+    tasks:
+      - id: foundation-001
+        name: Create project structure and package.json
+        status: done
+        completed: 2025-12-04
+      - id: foundation-002
+        name: Create design tokens CSS
+        status: done
+        completed: 2025-12-04
+      - id: foundation-003
+        name: Create SparkElement base class
+        status: done
+        completed: 2025-12-04
+      - id: foundation-004
+        name: Configure Vite and create demo page
+        status: done
+        completed: 2025-12-04
+      - id: foundation-005
+        name: Create example component to verify foundation
+        status: done
+        completed: 2025-12-04
+
+  button-component:
+    status: ready
+    depends_on:
+      - foundation-setup
+    parallelizable: true
+    tasks:
+      - id: button-001
+        name: Create base button component
+        description: |
+          Create SparkButton class extending SparkElement with basic structure,
+          slot for content, and default primary styling.
+        files:
+          - src/components/button/spark-button.js
+        acceptance_criteria:
+          - Component extends SparkElement
+          - Renders native button with slot for content
+          - Default variant is primary (purple filled)
+          - Click events fire normally
+          - Keyboard accessible (Enter/Space)
+        depends_on: []
+        estimate: 1h
+        status: pending
+
+      - id: button-002
+        name: Add button variants
+        description: |
+          Implement all variant styles: primary, secondary, outline, ghost, danger.
+          Each variant has distinct visual styling.
+        files:
+          - src/components/button/spark-button.js
+        acceptance_criteria:
+          - variant="primary" renders filled purple
+          - variant="secondary" renders filled gray
+          - variant="outline" renders bordered, no fill
+          - variant="ghost" renders text-only
+          - variant="danger" renders filled red
+          - Invalid variant falls back to primary
+        depends_on: [button-001]
+        estimate: 1h
+        status: pending
+
+      - id: button-003
+        name: Add button sizes and full-width
+        description: |
+          Implement size variants (small, medium, large) and full-width option.
+        files:
+          - src/components/button/spark-button.js
+        acceptance_criteria:
+          - size="small" renders 28px height, smaller font
+          - size="medium" (default) renders 36px height
+          - size="large" renders 44px height (touch target)
+          - full-width attribute makes button 100% width
+          - Font and padding scale with size
+        depends_on: [button-002]
+        estimate: 1h
+        status: pending
+
+      - id: button-004
+        name: Add disabled/loading states and accessibility
+        description: |
+          Implement disabled and loading states with proper accessibility attributes.
+        files:
+          - src/components/button/spark-button.js
+          - src/index.js
+          - index.html
+        acceptance_criteria:
+          - disabled attribute prevents clicks, shows 50% opacity
+          - loading attribute shows spinner, disables button
+          - aria-disabled and aria-busy reflect states
+          - Visible focus ring on keyboard focus
+          - Button not focusable when disabled
+          - Component exported from index.js
+          - Demo updated with button examples
+        depends_on: [button-003]
+        estimate: 1h
+        status: pending
+
+  card-component:
+    status: ready
+    depends_on:
+      - foundation-setup
+    parallelizable: true
+    tasks:
+      - id: card-001
+        name: Create main card component
+        description: |
+          Create SparkCard class with basic container styling: background,
+          border-radius, shadow, and slot for content.
+        files:
+          - src/components/card/spark-card.js
+        acceptance_criteria:
+          - Component extends SparkElement
+          - Renders with white background, rounded corners
+          - Default elevation is medium (shadow-md)
+          - Slot accepts any content
+          - Display block, fills container width
+        depends_on: []
+        estimate: 1h
+        status: pending
+
+      - id: card-002
+        name: Create card sub-components
+        description: |
+          Create header, body, and footer sub-components with proper styling.
+        files:
+          - src/components/card/spark-card-header.js
+          - src/components/card/spark-card-body.js
+          - src/components/card/spark-card-footer.js
+        acceptance_criteria:
+          - spark-card-header has bottom border, proper padding
+          - spark-card-body has content padding
+          - spark-card-footer has top border, flex-end alignment
+          - Sub-components are optional
+          - Proper spacing between sections
+        depends_on: [card-001]
+        estimate: 1h
+        status: pending
+
+      - id: card-003
+        name: Add elevation and bordered variants
+        description: |
+          Implement elevation levels and bordered variant styling.
+        files:
+          - src/components/card/spark-card.js
+        acceptance_criteria:
+          - elevation="none" removes shadow
+          - elevation="low" uses shadow-sm
+          - elevation="medium" (default) uses shadow-md
+          - elevation="high" uses shadow-lg
+          - variant="bordered" shows border instead of shadow
+        depends_on: [card-002]
+        estimate: 1h
+        status: pending
+
+      - id: card-004
+        name: Add clickable functionality and accessibility
+        description: |
+          Implement clickable card with hover/active states and keyboard accessibility.
+        files:
+          - src/components/card/spark-card.js
+          - src/index.js
+          - index.html
+        acceptance_criteria:
+          - clickable attribute enables interaction
+          - Hover shows lift effect and shadow increase
+          - Active shows press feedback
+          - role="button" and tabindex="0" when clickable
+          - Keyboard activation with Enter/Space
+          - Click event fires on card
+          - Components exported from index.js
+          - Demo updated with card examples
+        depends_on: [card-003]
+        estimate: 1h
+        status: pending
+
+  modal-component:
+    status: ready
+    depends_on:
+      - foundation-setup
+    parallelizable: true
+    tasks:
+      - id: modal-001
+        name: Create modal structure with backdrop
+        description: |
+          Create SparkModal class with backdrop overlay and centered modal container.
+          Modal is hidden by default.
+        files:
+          - src/components/modal/spark-modal.js
+        acceptance_criteria:
+          - Component extends SparkElement
+          - Renders backdrop (semi-transparent overlay)
+          - Modal container centered in viewport
+          - Hidden by default (no display)
+          - Size variants (small, medium, large, full)
+          - z-index uses --spark-z-modal token
+        depends_on: []
+        estimate: 1h
+        status: pending
+
+      - id: modal-002
+        name: Add open/close methods with animations
+        description: |
+          Implement open() and close() methods with fade/scale animations.
+        files:
+          - src/components/modal/spark-modal.js
+        acceptance_criteria:
+          - modal.open() shows modal with animation
+          - modal.close() hides modal with animation
+          - Backdrop fades in/out
+          - Modal scales from 95% to 100%
+          - 'open' event fires when opened
+          - 'close' event fires when closed
+        depends_on: [modal-001]
+        estimate: 1h
+        status: pending
+
+      - id: modal-003
+        name: Create modal sub-components and close button
+        description: |
+          Create header, body, footer sub-components and X close button.
+        files:
+          - src/components/modal/spark-modal-header.js
+          - src/components/modal/spark-modal-body.js
+          - src/components/modal/spark-modal-footer.js
+        acceptance_criteria:
+          - spark-modal-header has title area and X button
+          - spark-modal-body is scrollable content area
+          - spark-modal-footer has action button area
+          - X button closes modal
+          - closable="false" hides X button
+          - [data-close] attribute triggers close
+        depends_on: [modal-002]
+        estimate: 1h
+        status: pending
+
+      - id: modal-004
+        name: Implement focus trap and keyboard handling
+        description: |
+          Add focus trapping, Escape key handling, and focus restoration.
+        files:
+          - src/components/modal/spark-modal.js
+        acceptance_criteria:
+          - Focus trapped within modal while open
+          - Tab cycles through focusable elements
+          - Shift+Tab cycles backwards
+          - Escape key closes modal (default)
+          - escape-close="false" disables Escape
+          - Focus returns to trigger element on close
+        depends_on: [modal-003]
+        estimate: 1.5h
+        status: pending
+
+      - id: modal-005
+        name: Add scroll lock and accessibility
+        description: |
+          Implement body scroll lock and ARIA accessibility attributes.
+        files:
+          - src/components/modal/spark-modal.js
+          - src/index.js
+          - index.html
+        acceptance_criteria:
+          - Body scroll locked when modal open
+          - Scroll position preserved
+          - role="dialog" on modal
+          - aria-modal="true" when open
+          - aria-labelledby references header
+          - backdrop-close="false" disables backdrop click
+          - Components exported from index.js
+          - Demo updated with modal examples
+        depends_on: [modal-004]
+        estimate: 1h
+        status: pending
+
+  toast-component:
+    status: ready
+    depends_on:
+      - foundation-setup
+    parallelizable: true
+    tasks:
+      - id: toast-001
+        name: Create toast container and positioning
+        description: |
+          Create SparkToastContainer for positioning toasts in viewport.
+        files:
+          - src/components/toast/spark-toast-container.js
+        acceptance_criteria:
+          - Fixed positioning with z-index
+          - position attribute (top-right default)
+          - Supports all 6 positions (top/bottom × left/center/right)
+          - Flex column for stacking
+          - pointer-events none (pass through)
+        depends_on: []
+        estimate: 1h
+        status: pending
+
+      - id: toast-002
+        name: Create individual toast element
+        description: |
+          Create SparkToastElement for individual toast notifications with types.
+        files:
+          - src/components/toast/spark-toast.js
+          - src/components/toast/icons.js
+        acceptance_criteria:
+          - Component extends SparkElement
+          - type attribute (info, success, warning, error)
+          - Colored left border based on type
+          - Icon for each type
+          - Message slot/content
+          - Shadow and rounded corners
+        depends_on: [toast-001]
+        estimate: 1h
+        status: pending
+
+      - id: toast-003
+        name: Create toast manager with API
+        description: |
+          Create singleton ToastManager with show() and shorthand methods.
+        files:
+          - src/components/toast/toast-manager.js
+        acceptance_criteria:
+          - SparkToast.show({ message, type, duration }) works
+          - SparkToast.success/error/warning/info() shorthands
+          - Auto-creates container if needed
+          - Returns toast instance for programmatic close
+          - Default duration 4000ms
+        depends_on: [toast-002]
+        estimate: 1.5h
+        status: pending
+
+      - id: toast-004
+        name: Add animations and stacking
+        description: |
+          Implement slide-in/out animations and toast stacking logic.
+        files:
+          - src/components/toast/spark-toast.js
+          - src/components/toast/toast-manager.js
+        acceptance_criteria:
+          - Slide-in animation on appear
+          - Slide-out animation on dismiss
+          - Multiple toasts stack with gap
+          - Newest appears at edge position
+          - Dismissing shifts others smoothly
+          - Max visible toasts (default 5)
+        depends_on: [toast-003]
+        estimate: 1h
+        status: pending
+
+      - id: toast-005
+        name: Add dismiss functionality and accessibility
+        description: |
+          Implement manual dismiss, hover pause, and accessibility features.
+        files:
+          - src/components/toast/spark-toast.js
+          - src/components/toast/toast-manager.js
+          - src/index.js
+          - index.html
+        acceptance_criteria:
+          - closable option shows X button
+          - Clicking X closes immediately
+          - duration 0 creates persistent toast
+          - Hover pauses auto-dismiss timer
+          - aria-live for announcements
+          - Error toasts use assertive
+          - Components exported from index.js
+          - Demo updated with toast examples
+        depends_on: [toast-004]
+        estimate: 1h
+        status: pending
+
+notes: |
+  All specs now have tasks! Ready for implementation.
+  
+  Task Summary:
+    - foundation-setup: 5 tasks (DONE)
+    - button-component: 4 tasks (~4h)
+    - card-component: 4 tasks (~4h)
+    - modal-component: 5 tasks (~5.5h)
+    - toast-component: 5 tasks (~5.5h)
+  
+  Total remaining: 18 tasks (~19h)
+  
+  All 4 component specs can be developed in PARALLEL.
+  
+  Options:
+    1. /orchestrate - Launch 4 Cloud Agents (one per component)
+    2. /implement [task-id] - Work sequentially
+    
+  Recommended: /orchestrate for maximum parallelism

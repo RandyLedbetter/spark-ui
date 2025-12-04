@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spark UI - Component Library</title>
+  
+  <!-- Design Tokens -->
+  <link rel="stylesheet" href="/src/tokens/tokens.css">
+  
+  <style>
+    /* Demo page styles using Spark tokens */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: var(--spark-font-family);
+      background: var(--spark-surface);
+      color: var(--spark-text);
+      line-height: var(--spark-line-height-normal);
+      padding: var(--spark-spacing-xl);
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: var(--spark-spacing-2xl);
+    }
+    
+    h1 {
+      font-size: var(--spark-font-size-3xl);
+      font-weight: var(--spark-font-weight-bold);
+      color: var(--spark-primary);
+      margin-bottom: var(--spark-spacing-sm);
+    }
+    
+    .tagline {
+      font-size: var(--spark-font-size-lg);
+      color: var(--spark-text-muted);
+    }
+    
+    section {
+      background: var(--spark-background);
+      border-radius: var(--spark-radius-lg);
+      box-shadow: var(--spark-shadow-md);
+      padding: var(--spark-spacing-lg);
+      margin-bottom: var(--spark-spacing-lg);
+    }
+    
+    h2 {
+      font-size: var(--spark-font-size-xl);
+      font-weight: var(--spark-font-weight-semibold);
+      margin-bottom: var(--spark-spacing-md);
+      padding-bottom: var(--spark-spacing-sm);
+      border-bottom: 1px solid var(--spark-border);
+    }
+    
+    .token-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: var(--spark-spacing-sm);
+      margin-top: var(--spark-spacing-md);
+    }
+    
+    .color-swatch {
+      aspect-ratio: 1;
+      border-radius: var(--spark-radius-md);
+      display: flex;
+      align-items: flex-end;
+      padding: var(--spark-spacing-xs);
+      font-size: var(--spark-font-size-xs);
+      color: white;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+    
+    .spacing-demo {
+      display: flex;
+      align-items: flex-end;
+      gap: var(--spark-spacing-sm);
+      flex-wrap: wrap;
+    }
+    
+    .spacing-box {
+      background: var(--spark-primary);
+      border-radius: var(--spark-radius-sm);
+    }
+    
+    .shadow-demo {
+      display: flex;
+      gap: var(--spark-spacing-lg);
+      flex-wrap: wrap;
+    }
+    
+    .shadow-box {
+      width: 100px;
+      height: 60px;
+      background: var(--spark-background);
+      border-radius: var(--spark-radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--spark-font-size-sm);
+      color: var(--spark-text-muted);
+    }
+    
+    #component-demo {
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spark-spacing-md);
+      flex-wrap: wrap;
+    }
+    
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spark-spacing-xs);
+      padding: var(--spark-spacing-xs) var(--spark-spacing-sm);
+      background: var(--spark-success);
+      color: white;
+      border-radius: var(--spark-radius-full);
+      font-size: var(--spark-font-size-sm);
+      font-weight: var(--spark-font-weight-medium);
+    }
+    
+    .status::before {
+      content: '✓';
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>⚡ Spark UI</h1>
+      <p class="tagline">A lightweight, accessible Web Components library</p>
+    </header>
+    
+    <!-- Foundation Status -->
+    <section>
+      <h2>Foundation Status</h2>
+      <p style="margin-bottom: var(--spark-spacing-md);">
+        The foundation is set up and ready for component development.
+      </p>
+      <div style="display: flex; gap: var(--spark-spacing-sm); flex-wrap: wrap;">
+        <span class="status">Design Tokens</span>
+        <span class="status">SparkElement Base</span>
+        <span class="status">Vite Dev Server</span>
+      </div>
+    </section>
+    
+    <!-- Color Tokens -->
+    <section>
+      <h2>Color Tokens</h2>
+      <div class="token-grid">
+        <div class="color-swatch" style="background: var(--spark-primary);">primary</div>
+        <div class="color-swatch" style="background: var(--spark-secondary);">secondary</div>
+        <div class="color-swatch" style="background: var(--spark-success);">success</div>
+        <div class="color-swatch" style="background: var(--spark-warning);">warning</div>
+        <div class="color-swatch" style="background: var(--spark-error);">error</div>
+        <div class="color-swatch" style="background: var(--spark-info);">info</div>
+      </div>
+    </section>
+    
+    <!-- Spacing Tokens -->
+    <section>
+      <h2>Spacing Scale</h2>
+      <div class="spacing-demo">
+        <div style="text-align: center;">
+          <div class="spacing-box" style="width: var(--spark-spacing-xs); height: var(--spark-spacing-xs);"></div>
+          <small>xs</small>
+        </div>
+        <div style="text-align: center;">
+          <div class="spacing-box" style="width: var(--spark-spacing-sm); height: var(--spark-spacing-sm);"></div>
+          <small>sm</small>
+        </div>
+        <div style="text-align: center;">
+          <div class="spacing-box" style="width: var(--spark-spacing-md); height: var(--spark-spacing-md);"></div>
+          <small>md</small>
+        </div>
+        <div style="text-align: center;">
+          <div class="spacing-box" style="width: var(--spark-spacing-lg); height: var(--spark-spacing-lg);"></div>
+          <small>lg</small>
+        </div>
+        <div style="text-align: center;">
+          <div class="spacing-box" style="width: var(--spark-spacing-xl); height: var(--spark-spacing-xl);"></div>
+          <small>xl</small>
+        </div>
+        <div style="text-align: center;">
+          <div class="spacing-box" style="width: var(--spark-spacing-2xl); height: var(--spark-spacing-2xl);"></div>
+          <small>2xl</small>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Shadow Tokens -->
+    <section>
+      <h2>Shadow Scale</h2>
+      <div class="shadow-demo">
+        <div class="shadow-box" style="box-shadow: var(--spark-shadow-sm);">sm</div>
+        <div class="shadow-box" style="box-shadow: var(--spark-shadow-md);">md</div>
+        <div class="shadow-box" style="box-shadow: var(--spark-shadow-lg);">lg</div>
+        <div class="shadow-box" style="box-shadow: var(--spark-shadow-xl);">xl</div>
+      </div>
+    </section>
+    
+    <!-- Component Demo Area -->
+    <section>
+      <h2>Component Demo</h2>
+      <div id="component-demo">
+        <spark-example name="Spark UI"></spark-example>
+        <spark-example name="World"></spark-example>
+        <spark-example></spark-example>
+      </div>
+      <p style="margin-top: var(--spark-spacing-md); color: var(--spark-text-muted); font-size: var(--spark-font-size-sm);">
+        Click the buttons to test interactivity. Check console for custom events.
+      </p>
+    </section>
+  </div>
+  
+  <!-- Load Spark UI -->
+  <script type="module" src="/src/demo.js"></script>
+</body>
+</html>
+
