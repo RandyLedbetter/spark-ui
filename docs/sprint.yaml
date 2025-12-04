@@ -222,8 +222,8 @@ specs:
           - modal.close() hides modal with animation
           - Backdrop fades in/out
           - Modal scales from 95% to 100%
-          - 'open' event fires when opened
-          - 'close' event fires when closed
+          - open event fires when opened
+          - close event fires when closed
         depends_on: [modal-001]
         estimate: 1h
         status: pending
@@ -242,7 +242,7 @@ specs:
           - spark-modal-footer has action button area
           - X button closes modal
           - closable="false" hides X button
-          - [data-close] attribute triggers close
+          - data-close attribute triggers close
         depends_on: [modal-002]
         estimate: 1h
         status: pending
