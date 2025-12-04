@@ -12,10 +12,8 @@ Unlike TaskFlow CLI (where features depend on each other), Spark UI has **comple
 |-----------|--------------|------------------------|
 | Button | None | ✅ Yes |
 | Card | None | ✅ Yes |
-| Input | None | ✅ Yes |
 | Modal | None | ✅ Yes |
 | Toast | None | ✅ Yes |
-| Avatar | None | ✅ Yes |
 
 **Each component can be assigned to a separate Cloud Agent**, developed simultaneously, and merged via PRs.
 
@@ -87,30 +85,7 @@ A minimal component library that:
 
 ---
 
-### 3. Input Component
-
-```html
-<spark-input 
-  label="Email" 
-  type="email" 
-  placeholder="you@example.com"
-  required>
-</spark-input>
-
-<spark-input 
-  label="Password" 
-  type="password" 
-  error="Password too short">
-</spark-input>
-```
-
-**Types:** text, email, password, number, search
-**States:** default, focus, error, disabled
-**Features:** label, placeholder, helper text, error message, icons
-
----
-
-### 4. Modal Component
+### 3. Modal Component
 
 ```html
 <spark-modal id="confirm-modal">
@@ -133,7 +108,7 @@ A minimal component library that:
 
 ---
 
-### 5. Toast Component
+### 4. Toast Component
 
 ```html
 <script>
@@ -147,29 +122,6 @@ A minimal component library that:
 
 **Types:** info, success, warning, error
 **Features:** auto-dismiss, manual close, position options, stacking
-
----
-
-### 6. Avatar Component
-
-```html
-<spark-avatar 
-  src="/user.jpg" 
-  alt="John Doe"
-  size="large">
-</spark-avatar>
-
-<spark-avatar initials="JD" size="medium"></spark-avatar>
-
-<spark-avatar-group>
-  <spark-avatar src="/user1.jpg"></spark-avatar>
-  <spark-avatar src="/user2.jpg"></spark-avatar>
-  <spark-avatar initials="+3"></spark-avatar>
-</spark-avatar-group>
-```
-
-**Sizes:** small (24px), medium (40px), large (64px), xlarge (96px)
-**Features:** image, initials fallback, status indicator, group stacking
 
 ---
 
@@ -232,10 +184,8 @@ spark-ui/
 │   │   │   ├── button.css
 │   │   │   └── button.test.js
 │   │   ├── card/
-│   │   ├── input/
 │   │   ├── modal/
-│   │   ├── toast/
-│   │   └── avatar/
+│   │   └── toast/
 │   ├── tokens/
 │   │   └── tokens.css
 │   └── index.js
@@ -249,7 +199,7 @@ spark-ui/
 
 ## Version Control & Remote Repository
 
-> ⚠️ **IMPORTANT:** Cloud Agents create PRs, so a GitHub repository is REQUIRED.
+> **IMPORTANT:** Cloud Agents create PRs, so a GitHub repository is REQUIRED.
 
 ### Remote Repository
 - **URL:** https://github.com/RandyLedbetter/spark-ui.git
@@ -282,10 +232,8 @@ Each component gets its own spec that can be developed independently:
 |-----------|-----------|----------------|
 | `button-component` | Button | ✅ |
 | `card-component` | Card | ✅ |
-| `input-component` | Input | ✅ |
 | `modal-component` | Modal | ✅ |
 | `toast-component` | Toast | ✅ |
-| `avatar-component` | Avatar | ✅ |
 
 ---
 
@@ -311,10 +259,8 @@ Read SAMPLE_PROJECT.md and then let's do /plan-product for Spark UI
 ```bash
 cursor-agent-os new-spec button-component
 cursor-agent-os new-spec card-component
-cursor-agent-os new-spec input-component
 cursor-agent-os new-spec modal-component
 cursor-agent-os new-spec toast-component
-cursor-agent-os new-spec avatar-component
 ```
 
 ### Step 4: Write Detailed Specs
@@ -323,21 +269,21 @@ In Cursor chat, write specs for each:
 Let's do /write-spec for button-component based on SAMPLE_PROJECT.md
 ```
 
-Repeat for all 6 components.
+Repeat for all 4 components.
 
 ### Step 5: Create Tasks
 ```
 /create-tasks for all component specs
 ```
 
-### Step 6: ORCHESTRATE! 🚀
+### Step 6: ORCHESTRATE!
 ```
 /orchestrate
 ```
 
 **What happens:**
-1. AI identifies 6 independent components
-2. Launches 6 Cloud Agents (one per component)
+1. AI identifies 4 independent components
+2. Launches 4 Cloud Agents (one per component)
 3. Each agent works in parallel
 4. Each agent creates a PR
 5. You review and merge!
@@ -354,9 +300,9 @@ cursor-agent-os agents status <agent-id>
 
 After running `/orchestrate`:
 
-- **6 PRs created** (one for each component)
-- **6 agents working in parallel**
-- **~6x faster** than sequential `/implement`
+- **4 PRs created** (one for each component)
+- **4 agents working in parallel**
+- **~4x faster** than sequential `/implement`
 - **Clean PR-based review** for each component
 
 ---
@@ -365,25 +311,25 @@ After running `/orchestrate`:
 
 ### Sequential (`/implement`)
 ```
-Button → Card → Input → Modal → Toast → Avatar
-  10m     10m    10m     10m     10m      10m   = 60 minutes total
+Button → Card → Modal → Toast
+  10m     10m    10m     10m   = 40 minutes total
 ```
 
 ### Parallel (`/orchestrate`)
 ```
 Button ─┐
-Card ───┤
-Input ──┼─→ All complete in ~10 minutes!
+Card ───┼─→ All complete in ~10 minutes!
 Modal ──┤
-Toast ──┤
-Avatar ─┘
+Toast ──┘
 ```
 
 ---
 
 ## Stretch Goals
 
-After the 6 core components, consider:
+After the 4 core components, consider:
+- **Input** - Text input with label, validation, error states
+- **Avatar** - User avatar with image, initials, status indicator
 - **Dropdown** - Select menu with search
 - **Tabs** - Tab navigation component
 - **Tooltip** - Hover tooltips
@@ -394,5 +340,5 @@ Each of these is also independent and parallelizable!
 
 ---
 
-Happy building with Cloud Agents! ☁️🚀
+Happy building with Cloud Agents!
 
