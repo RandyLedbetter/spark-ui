@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spark UI - Design Tokens & Foundation Demo</title>
+  <link rel="stylesheet" href="/src/tokens/tokens.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--spark-font-family);
+      background: var(--spark-gray-50);
+      color: var(--spark-gray-900);
+      line-height: var(--spark-line-height-normal);
+      padding: var(--spark-spacing-xl);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: var(--spark-spacing-2xl);
+    }
+
+    header h1 {
+      font-size: var(--spark-font-size-3xl);
+      font-weight: var(--spark-font-weight-bold);
+      color: var(--spark-primary);
+      margin-bottom: var(--spark-spacing-sm);
+    }
+
+    header p {
+      font-size: var(--spark-font-size-lg);
+      color: var(--spark-gray-600);
+    }
+
+    section {
+      background: var(--spark-white);
+      border-radius: var(--spark-radius-xl);
+      padding: var(--spark-spacing-xl);
+      margin-bottom: var(--spark-spacing-xl);
+      box-shadow: var(--spark-shadow-sm);
+    }
+
+    section h2 {
+      font-size: var(--spark-font-size-xl);
+      font-weight: var(--spark-font-weight-semibold);
+      color: var(--spark-gray-800);
+      margin-bottom: var(--spark-spacing-lg);
+      padding-bottom: var(--spark-spacing-sm);
+      border-bottom: var(--spark-border);
+    }
+
+    /* Color Swatches */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--spark-spacing-md);
+    }
+
+    .color-swatch {
+      text-align: center;
+    }
+
+    .color-swatch .swatch {
+      height: 60px;
+      border-radius: var(--spark-radius-md);
+      margin-bottom: var(--spark-spacing-xs);
+      box-shadow: var(--spark-shadow-sm);
+    }
+
+    .color-swatch .label {
+      font-size: var(--spark-font-size-xs);
+      color: var(--spark-gray-600);
+    }
+
+    /* Typography Samples */
+    .typography-samples {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spark-spacing-md);
+    }
+
+    .type-sample {
+      display: flex;
+      align-items: baseline;
+      gap: var(--spark-spacing-md);
+    }
+
+    .type-sample .size-label {
+      min-width: 100px;
+      font-size: var(--spark-font-size-xs);
+      color: var(--spark-gray-500);
+    }
+
+    /* Spacing Demo */
+    .spacing-demo {
+      display: flex;
+      align-items: flex-end;
+      gap: var(--spark-spacing-md);
+      flex-wrap: wrap;
+    }
+
+    .spacing-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spark-spacing-xs);
+    }
+
+    .spacing-block .block {
+      background: var(--spark-primary-light);
+      border: 2px solid var(--spark-primary);
+    }
+
+    .spacing-block .label {
+      font-size: var(--spark-font-size-xs);
+      color: var(--spark-gray-600);
+    }
+
+    /* Shadow Demo */
+    .shadow-demo {
+      display: flex;
+      gap: var(--spark-spacing-xl);
+      flex-wrap: wrap;
+    }
+
+    .shadow-box {
+      width: 120px;
+      height: 80px;
+      background: var(--spark-white);
+      border-radius: var(--spark-radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--spark-font-size-xs);
+      color: var(--spark-gray-600);
+    }
+
+    /* Radius Demo */
+    .radius-demo {
+      display: flex;
+      gap: var(--spark-spacing-lg);
+      flex-wrap: wrap;
+    }
+
+    .radius-box {
+      width: 80px;
+      height: 80px;
+      background: var(--spark-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--spark-font-size-xs);
+      color: var(--spark-white);
+    }
+
+    /* Component Demo */
+    .component-demo {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--spark-spacing-lg);
+    }
+
+    /* Event Log */
+    .event-log {
+      margin-top: var(--spark-spacing-lg);
+      padding: var(--spark-spacing-md);
+      background: var(--spark-gray-900);
+      border-radius: var(--spark-radius-md);
+      font-family: monospace;
+      font-size: var(--spark-font-size-sm);
+      color: var(--spark-success);
+      min-height: 80px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    .event-log:empty::before {
+      content: "// Events will appear here...";
+      color: var(--spark-gray-500);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>⚡ Spark UI</h1>
+      <p>Foundation Demo - Design Tokens & Base Component</p>
+    </header>
+
+    <!-- Colors Section -->
+    <section>
+      <h2>🎨 Colors</h2>
+      <h3 style="font-size: var(--spark-font-size-md); margin-bottom: var(--spark-spacing-md); color: var(--spark-gray-700);">Brand Colors</h3>
+      <div class="color-grid" style="margin-bottom: var(--spark-spacing-xl);">
+        <div class="color-swatch">
+          <div class="swatch" style="background: var(--spark-primary);"></div>
+          <div class="label">Primary</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background: var(--spark-secondary);"></div>
+          <div class="label">Secondary</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background: var(--spark-success);"></div>
+          <div class="label">Success</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background: var(--spark-warning);"></div>
+          <div class="label">Warning</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background: var(--spark-error);"></div>
+          <div class="label">Error</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background: var(--spark-info);"></div>
+          <div class="label">Info</div>
+        </div>
+      </div>
+
+      <h3 style="font-size: var(--spark-font-size-md); margin-bottom: var(--spark-spacing-md); color: var(--spark-gray-700);">Gray Scale</h3>
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="swatch" style="background: var(--spark-gray-50); border: 1px solid var(--spark-gray-200);"></div>
+          <div class="label">Gray 50</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background: var(--spark-gray-100);"></div>
+          <div class="label">Gray 100</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background: var(--spark-gray-200);"></div>
+          <div class="label">Gray 200</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background: var(--spark-gray-300);"></div>
+          <div class="label">Gray 300</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background: var(--spark-gray-400);"></div>
+          <div class="label">Gray 400</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background: var(--spark-gray-500);"></div>
+          <div class="label">Gray 500</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background: var(--spark-gray-600);"></div>
+          <div class="label">Gray 600</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background: var(--spark-gray-700);"></div>
+          <div class="label">Gray 700</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background: var(--spark-gray-800);"></div>
+          <div class="label">Gray 800</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch" style="background: var(--spark-gray-900);"></div>
+          <div class="label">Gray 900</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography Section -->
+    <section>
+      <h2>📝 Typography</h2>
+      <div class="typography-samples">
+        <div class="type-sample">
+          <span class="size-label">3xl (30px)</span>
+          <span style="font-size: var(--spark-font-size-3xl); font-weight: var(--spark-font-weight-bold);">The quick brown fox</span>
+        </div>
+        <div class="type-sample">
+          <span class="size-label">2xl (24px)</span>
+          <span style="font-size: var(--spark-font-size-2xl); font-weight: var(--spark-font-weight-semibold);">The quick brown fox</span>
+        </div>
+        <div class="type-sample">
+          <span class="size-label">xl (20px)</span>
+          <span style="font-size: var(--spark-font-size-xl);">The quick brown fox jumps over</span>
+        </div>
+        <div class="type-sample">
+          <span class="size-label">lg (18px)</span>
+          <span style="font-size: var(--spark-font-size-lg);">The quick brown fox jumps over the lazy dog</span>
+        </div>
+        <div class="type-sample">
+          <span class="size-label">md (16px)</span>
+          <span style="font-size: var(--spark-font-size-md);">The quick brown fox jumps over the lazy dog</span>
+        </div>
+        <div class="type-sample">
+          <span class="size-label">sm (14px)</span>
+          <span style="font-size: var(--spark-font-size-sm);">The quick brown fox jumps over the lazy dog</span>
+        </div>
+        <div class="type-sample">
+          <span class="size-label">xs (12px)</span>
+          <span style="font-size: var(--spark-font-size-xs);">The quick brown fox jumps over the lazy dog</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Spacing Section -->
+    <section>
+      <h2>📏 Spacing</h2>
+      <div class="spacing-demo">
+        <div class="spacing-block">
+          <div class="block" style="width: var(--spark-spacing-xs); height: var(--spark-spacing-xs);"></div>
+          <div class="label">xs (4px)</div>
+        </div>
+        <div class="spacing-block">
+          <div class="block" style="width: var(--spark-spacing-sm); height: var(--spark-spacing-sm);"></div>
+          <div class="label">sm (8px)</div>
+        </div>
+        <div class="spacing-block">
+          <div class="block" style="width: var(--spark-spacing-md); height: var(--spark-spacing-md);"></div>
+          <div class="label">md (16px)</div>
+        </div>
+        <div class="spacing-block">
+          <div class="block" style="width: var(--spark-spacing-lg); height: var(--spark-spacing-lg);"></div>
+          <div class="label">lg (24px)</div>
+        </div>
+        <div class="spacing-block">
+          <div class="block" style="width: var(--spark-spacing-xl); height: var(--spark-spacing-xl);"></div>
+          <div class="label">xl (32px)</div>
+        </div>
+        <div class="spacing-block">
+          <div class="block" style="width: var(--spark-spacing-2xl); height: var(--spark-spacing-2xl);"></div>
+          <div class="label">2xl (48px)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shadows Section -->
+    <section>
+      <h2>🌑 Shadows</h2>
+      <div class="shadow-demo">
+        <div class="shadow-box" style="box-shadow: var(--spark-shadow-sm);">sm</div>
+        <div class="shadow-box" style="box-shadow: var(--spark-shadow-md);">md</div>
+        <div class="shadow-box" style="box-shadow: var(--spark-shadow-lg);">lg</div>
+        <div class="shadow-box" style="box-shadow: var(--spark-shadow-xl);">xl</div>
+        <div class="shadow-box" style="box-shadow: var(--spark-shadow-2xl);">2xl</div>
+      </div>
+    </section>
+
+    <!-- Border Radius Section -->
+    <section>
+      <h2>🔘 Border Radius</h2>
+      <div class="radius-demo">
+        <div class="radius-box" style="border-radius: var(--spark-radius-none);">none</div>
+        <div class="radius-box" style="border-radius: var(--spark-radius-sm);">sm</div>
+        <div class="radius-box" style="border-radius: var(--spark-radius-md);">md</div>
+        <div class="radius-box" style="border-radius: var(--spark-radius-lg);">lg</div>
+        <div class="radius-box" style="border-radius: var(--spark-radius-xl);">xl</div>
+        <div class="radius-box" style="border-radius: var(--spark-radius-full);">full</div>
+      </div>
+    </section>
+
+    <!-- Component Demo Section -->
+    <section>
+      <h2>⚡ Sample Component (SparkElement Demo)</h2>
+      <p style="color: var(--spark-gray-600); margin-bottom: var(--spark-spacing-lg);">
+        These components extend <code style="background: var(--spark-gray-100); padding: 2px 6px; border-radius: var(--spark-radius-sm);">SparkElement</code> 
+        and demonstrate attribute observation and custom events.
+      </p>
+      <div class="component-demo">
+        <spark-sample label="Primary Counter" count="0" variant="primary"></spark-sample>
+        <spark-sample label="Success Counter" count="5" variant="success"></spark-sample>
+        <spark-sample label="Warning Counter" count="10" variant="warning"></spark-sample>
+      </div>
+      <div class="event-log" id="event-log"></div>
+    </section>
+  </div>
+
+  <!-- Load the sample component -->
+  <script type="module">
+    import './src/demo/sample-component.js';
+
+    // Listen for custom events and log them
+    const eventLog = document.getElementById('event-log');
+    
+    document.addEventListener('spark-count-change', (e) => {
+      const timestamp = new Date().toLocaleTimeString();
+      const entry = document.createElement('div');
+      entry.textContent = `[${timestamp}] spark-count-change: { action: "${e.detail.action}", count: ${e.detail.count} }`;
+      eventLog.appendChild(entry);
+      eventLog.scrollTop = eventLog.scrollHeight;
+    });
+  </script>
+</body>
+</html>
+

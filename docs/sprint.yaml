@@ -1,0 +1,397 @@
+name: Spark UI - Sprint 1
+started: '2025-12-04'
+phase: implementing
+current_spec: null
+specs:
+  foundation-setup:
+    status: done
+    blocks:
+      - button-component
+      - card-component
+      - modal-component
+      - toast-component
+    tasks:
+      - id: task-001
+        name: Project scaffolding
+        status: done
+        completed: '2025-12-04'
+
+      - id: task-002
+        name: Design tokens CSS
+        status: done
+        completed: '2025-12-04'
+
+      - id: task-003
+        name: Base component class
+        status: done
+        completed: '2025-12-04'
+
+      - id: task-004
+        name: Utility functions
+        status: done
+        completed: '2025-12-04'
+
+      - id: task-005
+        name: Demo page and verification
+        status: done
+        completed: '2025-12-04'
+
+  button-component:
+    status: ready
+    file: docs/specs/button-component.md
+    depends_on:
+      - foundation-setup
+    tasks:
+      - id: btn-001
+        name: Button component structure
+        description: |
+          Create SparkButton class extending SparkElement with basic template,
+          observed attributes, and event emission.
+        files:
+          - src/components/button/button.js
+        acceptance_criteria:
+          - SparkButton extends SparkElement
+          - Registers as spark-button custom element
+          - Renders native button inside shadow DOM
+          - Observes variant, size, disabled, loading, type attributes
+          - Emits spark-click event on click
+        depends_on: []
+        estimate: 1h
+        status: pending
+
+      - id: btn-002
+        name: Button variants styling
+        description: |
+          Implement all 5 button variants with proper colors, hover, and active states.
+        files:
+          - src/components/button/button.js
+        acceptance_criteria:
+          - Primary variant with solid primary color
+          - Secondary variant with solid secondary color
+          - Outline variant with border and transparent background
+          - Ghost variant fully transparent
+          - Danger variant with error color
+          - All variants have hover and active states
+        depends_on:
+          - btn-001
+        estimate: 1h
+        status: pending
+
+      - id: btn-003
+        name: Button sizes and states
+        description: |
+          Implement size variants and disabled/loading states.
+        files:
+          - src/components/button/button.js
+        acceptance_criteria:
+          - Small size with 32px height
+          - Medium size with 40px height (default)
+          - Large size with 48px height
+          - Disabled state dims button and prevents interaction
+          - Loading state shows spinner and prevents interaction
+          - Disabled button has aria-disabled attribute
+        depends_on:
+          - btn-001
+        estimate: 1h
+        status: pending
+
+      - id: btn-004
+        name: Button slots and accessibility
+        description: |
+          Add icon slots and keyboard accessibility.
+        files:
+          - src/components/button/button.js
+        acceptance_criteria:
+          - icon-start slot renders before text
+          - icon-end slot renders after text
+          - Focus ring visible on keyboard focus
+          - Enter and Space keys trigger click
+          - Button type attribute works for forms
+        depends_on:
+          - btn-002
+          - btn-003
+        estimate: 1h
+        status: pending
+
+  card-component:
+    status: ready
+    file: docs/specs/card-component.md
+    depends_on:
+      - foundation-setup
+    tasks:
+      - id: card-001
+        name: Card component structure
+        description: |
+          Create SparkCard class with basic container styling and slot.
+        files:
+          - src/components/card/card.js
+        acceptance_criteria:
+          - SparkCard extends SparkElement
+          - Registers as spark-card custom element
+          - Renders with background, border, and border-radius
+          - Observes elevation, clickable, padding attributes
+          - Default slot accepts any content
+        depends_on: []
+        estimate: 1h
+        status: pending
+
+      - id: card-002
+        name: Card sub-components
+        description: |
+          Create header, body, and footer sub-components.
+        files:
+          - src/components/card/card-header.js
+          - src/components/card/card-body.js
+          - src/components/card/card-footer.js
+        acceptance_criteria:
+          - SparkCardHeader with bottom border
+          - SparkCardBody as main content area
+          - SparkCardFooter with top border and right-aligned content
+          - All register as spark-card-* custom elements
+          - Sub-components work independently
+        depends_on:
+          - card-001
+        estimate: 1h
+        status: pending
+
+      - id: card-003
+        name: Card elevation and padding
+        description: |
+          Implement elevation levels and padding options.
+        files:
+          - src/components/card/card.js
+        acceptance_criteria:
+          - Elevation 0 shows no shadow
+          - Elevation 1 uses shadow-sm (default)
+          - Elevation 2 uses shadow-md
+          - Elevation 3 uses shadow-lg
+          - Padding none, small, medium, large options work
+        depends_on:
+          - card-001
+        estimate: 45m
+        status: pending
+
+      - id: card-004
+        name: Clickable card behavior
+        description: |
+          Implement clickable card with keyboard support.
+        files:
+          - src/components/card/card.js
+        acceptance_criteria:
+          - Clickable attribute makes card interactive
+          - Hover increases elevation temporarily
+          - Click fires spark-card-click event
+          - Card has role button and tabindex 0 when clickable
+          - Enter and Space keys trigger click
+          - Focus ring visible on keyboard focus
+        depends_on:
+          - card-003
+        estimate: 1h
+        status: pending
+
+  modal-component:
+    status: ready
+    file: docs/specs/modal-component.md
+    depends_on:
+      - foundation-setup
+    tasks:
+      - id: modal-001
+        name: Modal component structure
+        description: |
+          Create SparkModal class with backdrop and dialog container.
+        files:
+          - src/components/modal/modal.js
+        acceptance_criteria:
+          - SparkModal extends SparkElement
+          - Registers as spark-modal custom element
+          - Renders backdrop and dialog container
+          - Observes open, size, closable attributes
+          - Dialog centered in viewport
+        depends_on: []
+        estimate: 1h
+        status: pending
+
+      - id: modal-002
+        name: Modal sub-components
+        description: |
+          Create header, body, and footer sub-components with close button.
+        files:
+          - src/components/modal/modal-header.js
+          - src/components/modal/modal-body.js
+          - src/components/modal/modal-footer.js
+        acceptance_criteria:
+          - SparkModalHeader with title area
+          - Close button in header when closable is true
+          - SparkModalBody scrolls when content overflows
+          - SparkModalFooter with right-aligned buttons
+          - All register as spark-modal-* custom elements
+        depends_on:
+          - modal-001
+        estimate: 1h
+        status: pending
+
+      - id: modal-003
+        name: Modal open and close behavior
+        description: |
+          Implement open/close methods, backdrop click, and escape key.
+        files:
+          - src/components/modal/modal.js
+        acceptance_criteria:
+          - open() method shows modal
+          - close() method hides modal
+          - toggle() method toggles state
+          - open attribute shows modal declaratively
+          - Backdrop click closes when close-on-backdrop true
+          - Escape key closes when close-on-escape true
+          - spark-modal-open and spark-modal-close events fire
+        depends_on:
+          - modal-001
+        estimate: 1h
+        status: pending
+
+      - id: modal-004
+        name: Modal focus management
+        description: |
+          Implement focus trap and return focus using trapFocus utility.
+        files:
+          - src/components/modal/modal.js
+        acceptance_criteria:
+          - Focus moves to first focusable element on open
+          - Tab cycles through focusable elements
+          - Shift+Tab cycles backwards
+          - Focus cannot leave modal while open
+          - Focus returns to trigger element on close
+          - Uses trapFocus from core utils
+        depends_on:
+          - modal-003
+        estimate: 1h
+        status: pending
+
+      - id: modal-005
+        name: Modal accessibility
+        description: |
+          Add ARIA attributes and data-close support.
+        files:
+          - src/components/modal/modal.js
+        acceptance_criteria:
+          - Modal has role dialog
+          - Modal has aria-modal true
+          - Modal has aria-labelledby pointing to header
+          - Background has aria-hidden when modal open
+          - Elements with data-close attribute close modal
+          - Body scroll locked when modal open
+        depends_on:
+          - modal-004
+        estimate: 1h
+        status: pending
+
+  toast-component:
+    status: ready
+    file: docs/specs/toast-component.md
+    depends_on:
+      - foundation-setup
+    tasks:
+      - id: toast-001
+        name: Toast container component
+        description: |
+          Create SparkToastContainer for positioning and managing toasts.
+        files:
+          - src/components/toast/toast-container.js
+        acceptance_criteria:
+          - SparkToastContainer extends SparkElement
+          - Registers as spark-toast-container custom element
+          - Observes position and max-visible attributes
+          - Positions in corner based on position attribute
+          - Uses fixed positioning with proper z-index
+        depends_on: []
+        estimate: 1h
+        status: pending
+
+      - id: toast-002
+        name: Toast item component
+        description: |
+          Create individual toast element with types and styling.
+        files:
+          - src/components/toast/toast-item.js
+        acceptance_criteria:
+          - Toast item with message, type, icon
+          - Info, success, warning, error types styled
+          - Each type has distinct background color
+          - Close button when dismissible
+          - Slide-in animation on appear
+        depends_on:
+          - toast-001
+        estimate: 1h
+        status: pending
+
+      - id: toast-003
+        name: Toast static API
+        description: |
+          Create SparkToast class with static show/success/error methods.
+        files:
+          - src/components/toast/toast.js
+        acceptance_criteria:
+          - SparkToast.show(options) creates toast
+          - SparkToast.success(message) shorthand
+          - SparkToast.error(message) shorthand
+          - SparkToast.warning(message) shorthand
+          - SparkToast.info(message) shorthand
+          - Auto-creates container if not in DOM
+          - Returns toast instance with dismiss method
+        depends_on:
+          - toast-002
+        estimate: 1h
+        status: pending
+
+      - id: toast-004
+        name: Toast auto-dismiss and stacking
+        description: |
+          Implement duration-based dismissal and toast stacking.
+        files:
+          - src/components/toast/toast-container.js
+          - src/components/toast/toast-item.js
+        acceptance_criteria:
+          - Toasts auto-dismiss after duration
+          - Duration 0 means manual dismiss only
+          - Multiple toasts stack vertically
+          - New toasts appear at container edge
+          - max-visible limit dismisses oldest
+          - Hover pauses auto-dismiss timer
+        depends_on:
+          - toast-003
+        estimate: 1h
+        status: pending
+
+      - id: toast-005
+        name: Toast accessibility
+        description: |
+          Add ARIA live regions for screen reader announcements.
+        files:
+          - src/components/toast/toast-container.js
+          - src/components/toast/toast-item.js
+        acceptance_criteria:
+          - Container has aria-live region
+          - Info and success use aria-live polite
+          - Error and warning use aria-live assertive
+          - Toast dismissal announced
+          - Uses announce utility from core
+        depends_on:
+          - toast-004
+        estimate: 45m
+        status: pending
+
+notes: |
+  Foundation setup COMPLETE! Bug fixed 2025-12-04.
+  
+  All 4 component specs have tasks ready:
+  - button-component: 4 tasks (4h estimated)
+  - card-component: 4 tasks (3.75h estimated)
+  - modal-component: 5 tasks (5h estimated)
+  - toast-component: 5 tasks (4.75h estimated)
+  
+  Total: 18 tasks, ~17.5 hours estimated
+  
+  All component tasks are PARALLELIZABLE across specs.
+  Within each spec, tasks have some dependencies.
+  
+  READY FOR: /orchestrate to launch parallel Cloud Agents
