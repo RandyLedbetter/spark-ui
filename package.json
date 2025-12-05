@@ -1,0 +1,20 @@
+{
+  "name": "spark-utils",
+  "version": "0.1.0",
+  "description": "A minimal JavaScript utilities library with separate modules",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./string": "./src/string-utils.js",
+    "./math": "./src/math-utils.js"
+  },
+  "keywords": [
+    "utils",
+    "utilities",
+    "string",
+    "math"
+  ],
+  "author": "",
+  "license": "MIT"
+}
