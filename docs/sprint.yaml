@@ -1,0 +1,73 @@
+name: spark-ui - Sprint 1
+started: '2025-12-05'
+phase: implementing
+current_spec: spark-utils
+
+specs:
+  spark-utils:
+    status: ready
+    file: docs/specs/spark-utils.md
+    tasks:
+      - id: task-001
+        name: Create project foundation
+        description: |
+          Set up the basic project structure with package.json and main entry point.
+          This must complete before parallel tasks can begin.
+        files:
+          - package.json
+          - src/index.js
+        acceptance_criteria:
+          - package.json exists with name spark-utils
+          - package.json has version 0.1.0
+          - package.json has type module
+          - src/index.js exists and re-exports string-utils and math-utils
+        depends_on: []
+        estimate: 1h
+        status: done
+        completed: '2025-12-05'
+        parallel: false
+
+      - id: task-002
+        name: Create string utilities module
+        description: |
+          Create src/string-utils.js with capitalize, reverse, and truncate functions.
+          All functions handle invalid inputs gracefully.
+        files:
+          - src/string-utils.js
+        acceptance_criteria:
+          - src/string-utils.js exists as a separate file
+          - capitalize hello returns Hello
+          - capitalize with no args returns empty string
+          - reverse hello returns olleh
+          - truncate hello world with maxLength 8 returns hello...
+        depends_on:
+          - task-001
+        estimate: 1h
+        status: pending
+        parallel: true
+
+      - id: task-003
+        name: Create math utilities module
+        description: |
+          Create src/math-utils.js with clamp, average, and sum functions.
+          All functions handle invalid inputs gracefully.
+        files:
+          - src/math-utils.js
+        acceptance_criteria:
+          - src/math-utils.js exists as a separate file
+          - clamp 15 between 0 and 10 returns 10
+          - clamp -5 between 0 and 10 returns 0
+          - average of 1 2 3 4 5 returns 3
+          - sum of 1 2 3 returns 6
+        depends_on:
+          - task-001
+        estimate: 1h
+        status: pending
+        parallel: true
+
+notes: |
+  Parallel Execution Strategy:
+  - task-001 (foundation) must complete first
+  - task-002 and task-003 can run in parallel after task-001
+  - Each parallel task creates a SEPARATE file (no merge conflicts)
+  - Total estimated time: 2h (1h sequential + 1h parallel)

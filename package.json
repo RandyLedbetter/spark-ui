@@ -1,0 +1,11 @@
+{
+  "name": "spark-utils",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./string": "./src/string-utils.js",
+    "./math": "./src/math-utils.js"
+  }
+}
